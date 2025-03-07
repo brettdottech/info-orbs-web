@@ -1,0 +1,12 @@
+version: "3.8"
+services:
+  frontend:
+    build: .
+    container_name: clockrepo-frontend
+    ports:
+      - "3001:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules # Prevents overwriting node_modules
+    environment:
+      - NODE_ENV=development

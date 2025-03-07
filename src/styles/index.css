@@ -1,0 +1,192 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121212;
+    color: #e0e0e0; /* Slightly grayish white for softer text */
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    color: #ffffff;
+    margin-top: 10px;
+    font-size: 2.5rem; /* Larger and more impactful h1 */
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2); /* Glow effect for headers */
+}
+
+h2 {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+h3 {
+    margin-top: 6px;
+    margin-bottom: 0;
+}
+
+h4 {
+    margin-top: 3px;
+    margin-bottom: 0;
+}
+
+.app-container {
+    max-width: 1200px;
+    margin: 20px auto; /* Adds some space between page edges */
+    padding: 20px;
+    background-color: #1e1e1e; /* Slightly lighter for content sections */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Add a subtle depth effect */
+}
+
+button {
+    padding: 10px 15px; /* More padding for button aesthetics */
+    background-color: #0078d4; /* Slightly darker blue for better balance */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Adds smooth transitions */
+}
+
+button:hover {
+    background-color: #005ea6; /* Darker blue for hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+button:disabled {
+    background-color: #999;
+}
+
+button:hover:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+a {
+    text-decoration: none;
+    color: #62dafb; /* Light blue for hyperlinks */
+    font-weight: bold;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+a:hover {
+    color: #ffffff; /* Brighter link color on hover */
+    /*text-shadow: 0 0 8px rgba(255, 255, 255, 0.9); !* Glow effect for hover *!*/
+}
+
+a:active {
+    color: #ffa726; /* Warm orange tone for active links */
+}
+
+a:visited {
+    color: #a29bfe; /* Muted lavender for visited links */
+}
+
+.clock-card {
+    display: inline-block;
+    margin: 20px;
+    text-align: center;
+    background: linear-gradient(145deg, #1d1d1d, #262626); /* Subtle gradient */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Deeper shadow for visual depth */
+    transition: transform 0.2s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+
+.clock-card * {
+    /*color: #cccccc; !* Ensure all sub-elements have white text *!*/
+}
+
+.clock-card:hover {
+    transform: translateY(-5px); /* Lift up card effect */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6); /* Stronger shadow on hover */
+}
+
+.clock-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #333; /* Adds definition around images */
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px; /* More spacing between links */
+}
+
+.nav-links a {
+    font-size: 1rem;
+    text-decoration: none;
+    color: #76c7ff; /* Softer cyan for better contrast on dark backgrounds */
+    font-weight: bold;
+    transition: color 0.3s ease, border-bottom 0.3s ease; /* Add hover transition */
+    border-bottom: 2px solid transparent; /* Add underline animation effect */
+}
+
+.nav-links a:hover {
+    color: #e3e3e3; /* Slightly lighter on hover */
+    border-bottom: 2px solid #62dafb; /* Underline effect on hover */
+}
+
+.nav-user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-user span {
+    font-weight: normal;
+    color: #b3b3b3; /* More muted gray for user info */
+    font-size: 1rem;
+    padding: 0 10px;
+}
+
+.nav-user button {
+    background-color: #ff5050;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 15px; /* Adjusted button size */
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-user button:hover {
+    background-color: #e60000; /* A bolder red on hover */
+    transform: translateY(-1px) scale(1.05); /* Slight hover lift and zoom */
+}
+
+.card {
+    margin: 20px 0;
+    padding: 10px 15px;
+    background: #232323; /* Slightly lighter dark background */
+    border-radius: 5px;
+    font-size: 1.1rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Slight elevation for stats box */
+}
+
+.app-nav {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #1e1e2f; /* Dark background */
+    border-top: 1px solid #333; /* Subtle border to differentiate */
+    border-bottom: 1px solid #333;
+    color: #fff; /* Light text color */
+}
+
+.icon-spacing {
+    margin: 0 8px;
+}
+
+.red {
+    color: red;
+}
