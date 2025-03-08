@@ -40,7 +40,7 @@ h4 {
 }
 
 button {
-    padding: 10px 15px; /* More padding for button aesthetics */
+    padding: 8px 16px;
     background-color: #0078d4; /* Slightly darker blue for better balance */
     color: white;
     border: none;
@@ -53,7 +53,7 @@ button {
 
 button:hover {
     background-color: #005ea6; /* Darker blue for hover */
-    transform: translateY(-2px); /* Slight lift effect */
+    transform: translateY(-1px) scale(1.05); /* Slight hover lift and zoom */
 }
 
 button:disabled {
@@ -144,22 +144,6 @@ a:visited {
     color: #b3b3b3; /* More muted gray for user info */
     font-size: 1rem;
     padding: 0 10px;
-}
-
-.nav-user button {
-    background-color: #ff5050;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    padding: 5px 15px; /* Adjusted button size */
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.nav-user button:hover {
-    background-color: #e60000; /* A bolder red on hover */
-    transform: translateY(-1px) scale(1.05); /* Slight hover lift and zoom */
 }
 
 .card {

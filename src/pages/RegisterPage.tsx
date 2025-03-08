@@ -2,6 +2,7 @@ import {useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import config from "../config";
+import {toast} from "react-toastify";
 
 const RegisterPage = () => {
     const [username, setUsername] = useState("");
@@ -14,8 +15,10 @@ const RegisterPage = () => {
         try {
             await axios.post(`${config.backendURL}/auth/register`, {username, email, password});
             navigate("/login");
+            toast.success("Registration successful");
         } catch (error) {
             console.error("Registration failed:", error);
+            toast.error("Registration failed");
         }
     };
 

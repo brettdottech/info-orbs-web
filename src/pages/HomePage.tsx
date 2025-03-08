@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {Clock} from '../types/Clock';
@@ -9,15 +9,8 @@ import config from "../config";
 const HomePage = () => {
     const [clocks, setClocks] = useState<Clock[]>([]);
 
-    const token = localStorage.getItem('token'); // Retrieve stored token
-    const authHeader = token ? {
-        headers: {
-            Authorization: `Bearer ${token}` // Send token in header
-        }
-    } : {}
-
     useEffect(() => {
-        axios.get(`${config.backendURL}/clocks`, authHeader)
+        axios.get(`${config.backendURL}/clocks`)
             .then(response => setClocks(response.data))
             .catch(error => console.error('Error fetching clocks:', error));
     }, []);

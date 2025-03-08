@@ -43,7 +43,7 @@ function App() {
                 </div>
                 {user && (
                     <div className="nav-user">
-                        <span>Logged in as {user.username}</span>
+                        <span>Logged in as <span style={{color: user.isAdmin ? "red" : "white"}}>{user.username}</span></span>
                         <button onClick={logout}>Logout</button>
                     </div>
                 )}

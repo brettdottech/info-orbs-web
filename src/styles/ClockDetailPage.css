@@ -39,30 +39,12 @@
     border-radius: 4px;
 }
 
-/* Button styling */
-.install-button {
-    padding: 8px 16px;
-    background-color: #0078d4;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
 .delete-button {
-    padding: 8px 16px;
     background-color: #c10000;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
 }
 
 .delete-button:hover {
     background-color: #770000; /* Darker blue for hover */
-    transform: translateY(-2px); /* Slight lift effect */
 }
 
 /* Status indicator (default state is hidden) */
@@ -115,4 +97,8 @@
     justify-content: center; /* Centers child elements */
     gap: 20px; /* Add spacing between images */
     margin-top: 20px; /* Space before detail images */
+}
+
+.install-info {
+    font-size: 14px;
 }

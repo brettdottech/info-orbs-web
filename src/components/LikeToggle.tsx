@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import axios from 'axios';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faHeart as faSolidHeart} from '@fortawesome/free-solid-svg-icons';
 import {faHeart as faRegularHeart} from '@fortawesome/free-regular-svg-icons';
 import {toast} from "react-toastify";
 import config from "../config";
+import {AuthContext} from "../context/AuthContext.tsx";
 
 interface LikeToggleProps {
     id: string;
@@ -16,23 +17,18 @@ interface LikeToggleProps {
 const LikeToggle: React.FC<LikeToggleProps> = ({
                                                    id, initialLikes, initialLiked, long
                                                }) => {
+    // Get logged in user
+    const {user} = useContext(AuthContext)!;
     const [isLiked, setLiked] = useState<boolean>(initialLiked); // State for like/unlike
     const [likes, setLikes] = useState<number>(initialLikes); // State for like count
     const [likeUpdating, setLikeUpdating] = useState<boolean>(false); // Prevent duplicate requests
-
-    const token = localStorage.getItem('token');
-    const authHeader = token ? {
-        headers: {
-            Authorization: `Bearer ${token}` // Send token in header
-        }
-    } : {}
 
     // Toggle like handler
     const handleToggleLike = async () => {
         if (likeUpdating) return; // Prevent multiple clicks while updating
         setLikeUpdating(true);
 
-        if (!token) {
+        if (!user) {
             console.error("No token found, user might not be logged in.");
             setLikeUpdating(false);
             toast.error("You need to be logged in to like this clock.");
@@ -42,11 +38,11 @@ const LikeToggle: React.FC<LikeToggleProps> = ({
         try {
             if (isLiked) {
                 // Unlike (send DELETE request)
-                await axios.delete(`${config.backendURL}/likes/${id}`, authHeader);
+                await axios.delete(`${config.backendURL}/likes/${id}`);
                 setLikes((prevLikes) => prevLikes - 1); // Update likes locally
             } else {
                 // Like (send POST request)
-                await axios.post(`${config.backendURL}/likes/${id}`, {}, authHeader);
+                await axios.post(`${config.backendURL}/likes/${id}`, {});
                 setLikes((prevLikes) => prevLikes + 1); // Update likes locally
             }
             setLiked(!isLiked); // Toggle like status
@@ -61,7 +57,7 @@ const LikeToggle: React.FC<LikeToggleProps> = ({
         <div
             onClick={handleToggleLike}
             style={{
-                cursor: (likeUpdating || !token) ? 'not-allowed' : 'pointer',
+                cursor: (likeUpdating || !user) ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 margin: '0 8px'
