@@ -50,6 +50,21 @@
     font-weight: bold;
 }
 
+.delete-button {
+    padding: 8px 16px;
+    background-color: #c10000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.delete-button:hover {
+    background-color: #770000; /* Darker blue for hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
 /* Status indicator (default state is hidden) */
 .status-indicator {
     width: 16px;

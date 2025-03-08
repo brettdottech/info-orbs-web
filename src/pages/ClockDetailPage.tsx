@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
-import {useParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {Clock} from '../types/Clock';
 import ConfirmationDialog from '../components/ConfirmationDialog';
 import DownloadsCounter from "../components/DownloadsCounter";
@@ -10,21 +10,26 @@ import {toast} from 'react-toastify'; // Import Toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify styles
 import '../styles/ClockDetailPage.css'; // Import the new CSS file
 import config from '../config';
+import {AuthContext} from "../context/AuthContext.tsx";
 
 
 const ClockDetailPage = () => {
+    const {user} = useContext(AuthContext)!;
     const {id} = useParams();
     const [clock, setClock] = useState<Clock | null>(null);
     const [currentTime, setCurrentTime] = useState<string>('');
     const [isImagesVisible, setImagesVisible] = useState<boolean>(false);
     const [orbIP, setOrbIP] = useState<string>(''); // State for the orb IP input
     const [customClockNo, setCustomClockNo] = useState<number>(0); // State for the orb IP input
-    const [loading, setLoading] = useState<boolean>(false); // Spinner state
-    const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false); // Dialog visibility state
+    // const [loading, setLoading] = useState<boolean>(false); // Spinner state
+    const [isInstallDialogOpen, setIsInstallDialogOpen] = useState<boolean>(false); // Dialog visibility state
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false); // Dialog visibility state
     const [pendingUrl, setPendingUrl] = useState<string>(''); // URL pending confirmation
     const [pendingCustomClockNum, setPendingCustomClockNum] = useState<number>(0); // Clock num pending confirmation
     const [status, setStatus] = useState<'success' | 'failure' | null>(null); // Status for ping (null, success, or failure)
     const [maxCustomClockNum, setMaxCustomClockNum] = useState<number>(0); // Clock num pending confirmation
+
+    const navigate = useNavigate();
 
     const token = localStorage.getItem('token'); // Retrieve stored token
     const authHeader = token ? {
@@ -39,6 +44,10 @@ const ClockDetailPage = () => {
         if (savedOrbIP) {
             setOrbIP(savedOrbIP); // Set the state with the saved IP address
         }
+        const savedCustomClockNo = localStorage.getItem('customClockNo');
+        if (savedCustomClockNo) {
+            setCustomClockNo(parseInt(savedCustomClockNo, 10));
+        }
     }, []); // Empty dependency array ensures this runs only once on mount
 
     // Save orbIP to localStorage whenever it changes
@@ -48,42 +57,12 @@ const ClockDetailPage = () => {
         }
     }, [orbIP]); // Runs every time orbIP is updated
 
-    // Ping the IP periodically
+    // Save customClockNo to localStorage whenever it changes
     useEffect(() => {
-        if (!orbIP) {
-            setStatus(null); // Reset status if IP is not set
-            return;
+        if (customClockNo) {
+            localStorage.setItem('customClockNo', customClockNo.toString()); // Update localStorage
         }
-
-        const pingOrbIP = () => {
-            // console.log('pinging orb', loading);
-            if (loading) {
-                // do not update while fetch is active because the Orbs will be blocked
-                return;
-            }
-            axios
-                .get(`http://${orbIP}/ping`, {timeout: 2000}) // 2-second timeout
-                .then(response => {
-                    // console.log(response);
-                    const maxClock = response.data.customClocks - 1;
-                    setMaxCustomClockNum(maxClock);
-                    if (customClockNo > maxClock) {
-                        setCustomClockNo(maxClock);
-                    }
-                    setStatus('success');
-                }) // If successful, set status to success
-                .catch(() => setStatus('failure')); // On error or timeout, set status to failure
-        };
-
-        // Ping immediately once the IP changes
-        pingOrbIP();
-
-        // Set interval for subsequent pings
-        const interval = setInterval(pingOrbIP, 15000);
-
-        return () => clearInterval(interval); // Cleanup on component unmount
-
-    }, [orbIP, loading]); // Runs whenever `orbIP` changes
+    }, [customClockNo]); // Runs every time orbIP is updated
 
     useEffect(() => {
         axios.get(`${config.backendURL}/clocks/${id}`, authHeader)
@@ -126,7 +105,6 @@ const ClockDetailPage = () => {
         url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
     }
 
-    // POST request handler
     const handleInstallClockface = (url: string, customClockNum: number) => {
         // Validate the orb IP value
         if (!orbIP) {
@@ -137,30 +115,28 @@ const ClockDetailPage = () => {
         // Set up pending data and open the dialog
         setPendingUrl(url);
         setPendingCustomClockNum(customClockNum);
-        setIsDialogOpen(true); // Open confirmation dialog
+        setIsInstallDialogOpen(true); // Open confirmation dialog
     }
 
     const confirmInstallClockface = () => {
-        setIsDialogOpen(false); // Close confirmation dialog
-        const url = pendingUrl;
-        const customClockNum = pendingCustomClockNum;
-        setLoading(true); // Show spinner
+        setIsInstallDialogOpen(false); // Close confirmation dialog
+        // Open the URL in a new tab
+        window.open(`http://${orbIP}/fetchFromClockRepo?url=${encodeURIComponent(pendingUrl)}&customClock=${pendingCustomClockNum}`, '_blank');
+        markDownload();
+    };
 
-        axios.post(`http://${orbIP}/fetchFromUrlByApi`, new URLSearchParams({
-            url: url,
-            customClockNo: customClockNum.toString()
-        }), {
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        })
+    const handleDeleteClockface = () => {
+        setIsDeleteDialogOpen(true);
+    };
+
+    const confirmDeleteClockface = () => {
+        setIsDeleteDialogOpen(false);
+        axios.delete(`${config.backendURL}/clocks/${clock.id}`, authHeader)
             .then(() => {
-                toast.success('Clockface installed successfully!'); // Show success toast
-                markDownload();
-            })
-            .catch(error => {
-                console.error('Error installing clockface:', error);
-                toast.error('Failed to install the clockface.'); // Show error toast
-            })
-            .finally(() => setLoading(false)); // Hide spinner
+                    toast.success('Clockface deleted');
+                    navigate("/");
+                }
+            );
     };
 
     const markDownload = () => {
@@ -231,8 +207,6 @@ const ClockDetailPage = () => {
 
             </div>
 
-            {/*<h3>Install on Orbs</h3>*/}
-
             <div className='card'>
                 <h4>Install this clockface on you InfoOrbs</h4>
                 <div className="flex-container">
@@ -247,52 +221,56 @@ const ClockDetailPage = () => {
                             placeholder="192.168.x.x"
                             className="orb-ip-input"
                         />
-                        {/* Status Indicator */}
-                        <div
-                            className={`status-indicator ${
-                                status === 'success' ? 'green' : status === 'failure' ? 'red' : ''
-                            }`}
-                            title={status === 'success' ? 'Connection Successful' : status === 'failure' ? 'Connection Failed' : ''}
-                        ></div>
                     </div>
 
                     {/* Custom Clock Number Label + Input */}
                     <div className="input-group">
-                        <label htmlFor="orb-customclockno">CustomClock # (0 - {maxCustomClockNum}):</label>
+                        <label htmlFor="orb-customclockno">CustomClock #:</label>
                         <input
-                            disabled={status !== 'success' || !orbIP}
+                            // disabled={status !== 'success' || !orbIP}
                             id="orb-customclockno"
                             type="number"
                             value={customClockNo}
                             min="0"
-                            max={maxCustomClockNum}
+                            max="9"
                             onChange={(e) => setCustomClockNo(Number(e.target.value))}
                             placeholder="0-9"
                             className="custom-clock-number-input"
                         />
                     </div>
-                    {/* Install Button */}
                     <button
-                        disabled={status !== 'success' || !orbIP || customClockNo > maxCustomClockNum}
+                        // disabled={status !== 'success' || !orbIP || customClockNo > maxCustomClockNum}
                         id="install-clockface"
                         onClick={() => handleInstallClockface(clock.jpg_url, customClockNo)}
                         className="install-button"
                     >
                         Install
                     </button>
+                    {/*<Link to={`http://${orbIP}/button?name=right&state=short`}>Install</Link>*/}
                 </div>
             </div>
-            <ProgressSpinner
-                show={loading}
-                title="Uploading Clockface to InfoOrbs"
-                message="This might take 1-2 minutes..."
-            />
+            {user && (user.isAdmin || user.id == clock.user_id) && (<button className="delete-button"
+                                                                            onClick={() => handleDeleteClockface()}>Delete
+                Clock
+            </button>)}
+            {/*<ProgressSpinner*/}
+            {/*    show={loading}*/}
+            {/*    title="Uploading Clockface to InfoOrbs"*/}
+            {/*    message="This might take 1-2 minutes..."*/}
+            {/*/>*/}
             <ConfirmationDialog
-                show={isDialogOpen}
+                show={isInstallDialogOpen}
                 title="Confirm Clockface Installation"
                 message={`Are you sure you want to install this clockface on Orb IP: ${orbIP}, CustomClock ${customClockNo}?`}
                 onConfirm={confirmInstallClockface} // Proceed with installation
-                onCancel={() => setIsDialogOpen(false)} // Cancel the dialog
+                onCancel={() => setIsInstallDialogOpen(false)} // Cancel the dialog
+            />
+            <ConfirmationDialog
+                show={isDeleteDialogOpen}
+                title="Delete Clockface?"
+                message={`Are you sure you want to delete this clockface from the server?`}
+                onConfirm={confirmDeleteClockface} // Proceed with installation
+                onCancel={() => setIsDeleteDialogOpen(false)} // Cancel the dialog
             />
         </div>
     );

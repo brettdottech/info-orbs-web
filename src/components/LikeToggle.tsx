@@ -21,6 +21,11 @@ const LikeToggle: React.FC<LikeToggleProps> = ({
     const [likeUpdating, setLikeUpdating] = useState<boolean>(false); // Prevent duplicate requests
 
     const token = localStorage.getItem('token');
+    const authHeader = token ? {
+        headers: {
+            Authorization: `Bearer ${token}` // Send token in header
+        }
+    } : {}
 
     // Toggle like handler
     const handleToggleLike = async () => {
@@ -37,19 +42,11 @@ const LikeToggle: React.FC<LikeToggleProps> = ({
         try {
             if (isLiked) {
                 // Unlike (send DELETE request)
-                await axios.delete(`${config.backendURL}/likes/${id}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                await axios.delete(`${config.backendURL}/likes/${id}`, authHeader);
                 setLikes((prevLikes) => prevLikes - 1); // Update likes locally
             } else {
                 // Like (send POST request)
-                await axios.post(`${config.backendURL}/likes/${id}`, {}, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                await axios.post(`${config.backendURL}/likes/${id}`, {}, authHeader);
                 setLikes((prevLikes) => prevLikes + 1); // Update likes locally
             }
             setLiked(!isLiked); // Toggle like status
@@ -74,7 +71,7 @@ const LikeToggle: React.FC<LikeToggleProps> = ({
                 icon={isLiked ? faSolidHeart : faRegularHeart} // Toggle icon
                 style={{color: isLiked ? 'red' : 'lightgrey', marginRight: '8px'}} // Toggle color
             />
-            {likes}{long ? " likes" : ""}
+            {likes}{long ? " like" + (likes != 1 ? "s" : "") : ""}
         </div>
     );
 };

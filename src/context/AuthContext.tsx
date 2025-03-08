@@ -4,7 +4,7 @@ import config from "../config";
 import {toast} from "react-toastify";
 
 interface AuthContextType {
-    user: { id: number; username: string } | null;
+    user: { id: number; username: string; isAdmin: boolean } | null;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
 }
@@ -12,23 +12,26 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({children}: { children: ReactNode }) => {
-    const [user, setUser] = useState<{ id: number; username: string } | null>(null);
+    const [user, setUser] = useState<{ id: number; username: string; isAdmin: boolean } | null>(null);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
             const userData = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
-            setUser({id: userData.id, username: userData.username});
+            console.log(userData);
+            setUser({id: userData.id, username: userData.username, isAdmin: userData.isAdmin});
         }
     }, []);
 
     const login = async (email: string, password: string) => {
         try {
             const response = await axios.post(`${config.backendURL}/auth/login`, {email, password});
+            console.log(response.data);
             const token = response.data.token;
             localStorage.setItem("token", token);
             const userData = JSON.parse(atob(token.split(".")[1]));
-            setUser({id: userData.id, username: userData.username});
+            console.log(userData);
+            setUser({id: userData.id, username: userData.username, isAdmin: userData.isAdmin});
             toast.success("Login successful");
         } catch (error) {
             console.error("Login failed:", error);
