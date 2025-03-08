@@ -30,17 +30,20 @@ function App() {
                 {/*<div>InfoOrbs Clock Repo</div>*/}
                 <Link to="/">Home</Link>
                 <div className="nav-links">
-                    {user ? (
+                    {user && (
                         <>
                             <Link to="/add-clock">Add Clock</Link>
                         </>
-                    ) : (
+                    )}
+                </div>
+                {!user && (
+                    <div className="nav-user">
                         <>
                             <Link to="/login">Login</Link>
                             {/*<Link to="/register">Register</Link>*/}
                         </>
-                    )}
-                </div>
+                    </div>
+                )}
                 {user && (
                     <div className="nav-user">
                         <span>Logged in as <span style={{color: user.isAdmin ? "red" : "white"}}>{user.username}</span></span>

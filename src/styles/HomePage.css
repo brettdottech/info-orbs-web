@@ -1,0 +1,44 @@
+.clock-card {
+    display: inline-block;
+    margin: 20px;
+    text-align: center;
+    background: linear-gradient(145deg, #1d1d1d, #262626); /* Subtle gradient */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Deeper shadow for visual depth */
+    transition: transform 0.2s ease, box-shadow 0.3s ease; /* Smooth hover effect */
+}
+
+
+.clock-card * {
+    /*color: #cccccc; !* Ensure all sub-elements have white text *!*/
+}
+
+.clock-card:hover {
+    transform: translateY(-5px); /* Lift up card effect */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6); /* Stronger shadow on hover */
+}
+
+.clock-card img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #333; /* Adds definition around images */
+}
+
+
+@media only screen and (max-width: 480px) {
+    .clock-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        width: auto;
+    }
+
+    .clock-card {
+        margin: 20px 10px;
+        width: calc(50% - 20px);
+        box-sizing: border-box;
+    }
+}

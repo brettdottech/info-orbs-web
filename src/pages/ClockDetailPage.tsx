@@ -168,8 +168,6 @@ const ClockDetailPage = () => {
                         key={index}
                         src={`${url}/${imageFileName}`}
                         alt={char}
-                        width="120"
-                        height="120"
                     />
                 </div>
             );
@@ -203,8 +201,7 @@ const ClockDetailPage = () => {
                     <div className="clock-detail-images">
                         {[...Array(12)].map((_, idx) => (
                             // idx === 10 ? null : (
-                            <img key={idx} src={`${url}/${idx}.jpg`} alt={`${clock.name} - ${idx}`} width="120"
-                                 height="120"/>
+                            <img key={idx} src={`${url}/${idx}.jpg`} alt={`${clock.name} - ${idx}`}/>
                             // )
                         ))}
                     </div>)}
@@ -226,9 +223,6 @@ const ClockDetailPage = () => {
                             className="orb-ip-input"
                         />
                     </div>
-                    <button onClick={() => window.open(`http://${orbIP}/`, '_blank')}>
-                        Open WebPortal
-                    </button>
                     {/* Custom Clock Number Label + Input */}
                     <div className="input-group">
                         <label htmlFor="orb-customclockno">CustomClock #:</label>
@@ -244,6 +238,9 @@ const ClockDetailPage = () => {
                             className="custom-clock-number-input"
                         />
                     </div>
+                    <button onClick={() => window.open(`http://${orbIP}/`, '_blank')}>
+                        Open WebPortal
+                    </button>
                     <button id="install-clockface"
                             onClick={() => handleInstallClockface(clock.jpg_url, customClockNo)}
                     >

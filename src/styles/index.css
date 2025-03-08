@@ -85,35 +85,6 @@ a:visited {
     color: #a29bfe; /* Muted lavender for visited links */
 }
 
-.clock-card {
-    display: inline-block;
-    margin: 20px;
-    text-align: center;
-    background: linear-gradient(145deg, #1d1d1d, #262626); /* Subtle gradient */
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4); /* Deeper shadow for visual depth */
-    transition: transform 0.2s ease, box-shadow 0.3s ease; /* Smooth hover effect */
-}
-
-
-.clock-card * {
-    /*color: #cccccc; !* Ensure all sub-elements have white text *!*/
-}
-
-.clock-card:hover {
-    transform: translateY(-5px); /* Lift up card effect */
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6); /* Stronger shadow on hover */
-}
-
-.clock-card img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 2px solid #333; /* Adds definition around images */
-}
-
 .nav-links {
     display: flex;
     gap: 20px; /* More spacing between links */
@@ -137,6 +108,7 @@ a:visited {
     display: flex;
     align-items: center;
     gap: 15px;
+    margin-left: auto;
 }
 
 .nav-user span {
@@ -158,13 +130,14 @@ a:visited {
 .app-nav {
     margin: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     padding: 10px 20px;
     background-color: #1e1e2f; /* Dark background */
     border-top: 1px solid #333; /* Subtle border to differentiate */
     border-bottom: 1px solid #333;
     color: #fff; /* Light text color */
+    gap: 20px;
 }
 
 .icon-spacing {

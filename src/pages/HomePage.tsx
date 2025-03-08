@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {Clock} from '../types/Clock';
 import LikeToggle from "../components/LikeToggle";
 import DownloadsCounter from "../components/DownloadsCounter";
+import '../styles/HomePage.css'; // Import the new CSS file
 import config from "../config";
 
 const HomePage = () => {
