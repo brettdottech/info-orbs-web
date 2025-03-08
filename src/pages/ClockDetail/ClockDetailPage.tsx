@@ -4,7 +4,6 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {Clock} from '../../types/Clock.ts';
 import ConfirmationDialog from '../../components/ConfirmationDialog.tsx';
 import DownloadsCounter from "../../components/DownloadsCounter.tsx";
-// import ProgressSpinner from '../components/ProgressSpinner';
 import LikeToggle from "../../components/LikeToggle.tsx";
 import {toast} from 'react-toastify'; // Import Toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify styles
@@ -14,6 +13,8 @@ import {AuthContext} from "../../context/AuthContext.tsx";
 import ClockTimeCard from "./ClockTimeCard.tsx";
 import Card from "../../components/Card.tsx";
 import AllClockImagesCard from "./AllClockImagesCard.tsx";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 
 
 const ClockDetailPage = () => {
@@ -24,22 +25,13 @@ const ClockDetailPage = () => {
     const [clock, setClock] = useState<Clock | null>(null);
     const [orbIP, setOrbIP] = useState<string>(''); // State for the orb IP input
     const [customClockNo, setCustomClockNo] = useState<number>(0); // State for the orb IP input
-    // const [loading, setLoading] = useState<boolean>(false); // Spinner state
     const [isInstallDialogOpen, setIsInstallDialogOpen] = useState<boolean>(false); // Dialog visibility state
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false); // Dialog visibility state
     const [pendingUrl, setPendingUrl] = useState<string>(''); // URL pending confirmation
     const [pendingCustomClockNum, setPendingCustomClockNum] = useState<number>(0); // Clock num pending confirmation
-    // const [status, setStatus] = useState<'success' | 'failure' | null>(null); // Status for ping (null, success, or failure)
-    // const [maxCustomClockNum, setMaxCustomClockNum] = useState<number>(0); // Clock num pending confirmation
+    const [showInfo, setShowInfo] = useState<boolean>(false);
 
     const navigate = useNavigate();
-
-    // const token = localStorage.getItem('token'); // Retrieve stored token
-    // const authHeader = token ? {
-    //     headers: {
-    //         Authorization: `Bearer ${token}` // Send token in header
-    //     }
-    // } : {}
 
     // Load the orbIP from localStorage when the component mounts
     useEffect(() => {
@@ -132,7 +124,7 @@ const ClockDetailPage = () => {
             <AllClockImagesCard clock={clock}/>
 
             <Card>
-                <h4>Install this clockface on you InfoOrbs</h4>
+                <h4>Install this Clockface</h4>
                 <div className={styles["flex-container"]}>
                     {/* Orb IP Label + Input */}
                     <div className={styles["input-group"]}>
@@ -171,15 +163,20 @@ const ClockDetailPage = () => {
                     </button>
                 </div>
                 <div className={styles["install-info"]}>
-                    <h4>How it works</h4>
-                    <div>When you press "Install", we open a new tab that connects to your Orbs and
-                        tries to install the clockface.
-                    </div>
-                    <div>If everything works, the new tab should close automatically. If there is a problem, the tab
-                        will remain open.
-                    </div>
-                    <div>You can see the install progress directly on your InfoOrbs. During installation, the WebPortal
-                        is not reachable.
+                    <h4 onClick={() => setShowInfo(!showInfo)}>
+                        How it works <FontAwesomeIcon icon={faInfoCircle}/>
+                    </h4>
+                    <div hidden={!showInfo}>
+                        <div>When you press "Install", we open a new tab that connects to your Orbs and
+                            tries to install the clockface.
+                        </div>
+                        <div>If everything works, the new tab should close automatically. If there is a problem, the tab
+                            will remain open.
+                        </div>
+                        <div>You can see the install progress directly on your InfoOrbs. During installation, the
+                            WebPortal
+                            is not reachable.
+                        </div>
                     </div>
                 </div>
             </Card>

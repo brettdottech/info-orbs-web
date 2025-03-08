@@ -138,3 +138,7 @@ a:visited {
 .red {
     color: red;
 }
+
+.curser-pointer {
+    cursor: pointer;
+}
