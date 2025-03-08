@@ -1,8 +1,8 @@
 import React, {useContext, useState} from 'react';
 import axios from 'axios';
 import {Navigate, useNavigate} from 'react-router-dom';
-import {AuthContext} from "../context/AuthContext";
-import config from "../config";
+import {AuthContext} from "../../context/AuthContext.tsx";
+import config from "../../config.ts";
 
 const AddClockPage = () => {
     const [name, setName] = useState('');

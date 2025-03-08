@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/ProgressSpinner.css'; // Add CSS here or inline styles (see below)
+import styles from './ProgressSpinner.module.css';
 
 interface ProgressSpinnerProps {
     show: boolean;
@@ -15,11 +15,11 @@ const ProgressSpinner: React.FC<ProgressSpinnerProps> = ({
     if (!show) return null; // Don't render if not visible
 
     return (
-        <div className='overlay' id='overlay'>
-            <div className='spinner' id='spinner'>
-                <div className='spinner-circle'></div>
-                <p className='spinner-title' id='spinner-title'>{title}</p>
-                <p className='spinner-text' id='spinner-text'>{message}</p>
+        <div className={styles['overlay']}>
+            <div className={styles['spinner']}>
+                <div className={styles['spinner-circle']}></div>
+                <p className={styles['spinner-title']}>{title}</p>
+                <p className={styles['spinner-text']}>{message}</p>
             </div>
         </div>
     );

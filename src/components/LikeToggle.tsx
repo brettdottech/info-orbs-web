@@ -6,6 +6,7 @@ import {faHeart as faRegularHeart} from '@fortawesome/free-regular-svg-icons';
 import {toast} from "react-toastify";
 import config from "../config";
 import {AuthContext} from "../context/AuthContext.tsx";
+import styles from './LikeToggle.module.css';
 
 interface LikeToggleProps {
     id: string;
@@ -56,16 +57,11 @@ const LikeToggle: React.FC<LikeToggleProps> = ({
     return (
         <div
             onClick={handleToggleLike}
-            style={{
-                cursor: (likeUpdating || !user) ? 'not-allowed' : 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                margin: '0 8px'
-            }}
+            className={`${styles['like-toggle']} ${(likeUpdating || !user) ? styles['like-toggle-disabled'] : ''}`}
         >
             <FontAwesomeIcon
                 icon={isLiked ? faSolidHeart : faRegularHeart} // Toggle icon
-                style={{color: isLiked ? 'red' : 'lightgrey', marginRight: '8px'}} // Toggle color
+                className={isLiked ? styles['icon-liked'] : styles['icon-unliked']}
             />
             {likes}{long ? " like" + (likes != 1 ? "s" : "") : ""}
         </div>

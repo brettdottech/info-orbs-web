@@ -1,0 +1,25 @@
+.clock-detail-images {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centers child elements */
+    gap: 20px; /* Add spacing between images */
+    margin-top: 20px; /* Space before detail images */
+}
+
+.clock-detail-images img {
+    max-width: 120px;
+    max-height: 120px;
+    aspect-ratio: 1 / 1;
+    width: auto;
+    height: auto;
+}
+
+@media only screen and (max-width: 480px) {
+    .clock-detail-images {
+        gap: 10px;
+    }
+
+    .clock-detail-images img {
+        width: calc(33% - 20px);
+    }
+}

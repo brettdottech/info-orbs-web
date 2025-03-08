@@ -1,16 +1,19 @@
 import {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
 import {useNavigate, useParams} from 'react-router-dom';
-import {Clock} from '../types/Clock';
-import ConfirmationDialog from '../components/ConfirmationDialog';
-import DownloadsCounter from "../components/DownloadsCounter";
+import {Clock} from '../../types/Clock.ts';
+import ConfirmationDialog from '../../components/ConfirmationDialog.tsx';
+import DownloadsCounter from "../../components/DownloadsCounter.tsx";
 // import ProgressSpinner from '../components/ProgressSpinner';
-import LikeToggle from "../components/LikeToggle";
+import LikeToggle from "../../components/LikeToggle.tsx";
 import {toast} from 'react-toastify'; // Import Toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify styles
-import '../styles/ClockDetailPage.css'; // Import the new CSS file
-import config from '../config';
-import {AuthContext} from "../context/AuthContext.tsx";
+import styles from './ClockDetailPage.module.css'; // Import the new CSS file
+import config from '../../config.ts';
+import {AuthContext} from "../../context/AuthContext.tsx";
+import ClockTimeCard from "./ClockTimeCard.tsx";
+import Card from "../../components/Card.tsx";
+import AllClockImagesCard from "./AllClockImagesCard.tsx";
 
 
 const ClockDetailPage = () => {
@@ -19,8 +22,6 @@ const ClockDetailPage = () => {
 
     const {id} = useParams();
     const [clock, setClock] = useState<Clock | null>(null);
-    const [currentTime, setCurrentTime] = useState<string>('');
-    const [isImagesVisible, setImagesVisible] = useState<boolean>(false);
     const [orbIP, setOrbIP] = useState<string>(''); // State for the orb IP input
     const [customClockNo, setCustomClockNo] = useState<number>(0); // State for the orb IP input
     // const [loading, setLoading] = useState<boolean>(false); // Spinner state
@@ -72,40 +73,7 @@ const ClockDetailPage = () => {
             .catch(error => console.error('Error fetching clock details:', error));
     }, [id]);
 
-    useEffect(() => {
-        // Function to format time in MM:HH:SS format
-        const formatTime = (date: Date) => {
-            const pad = (n: number) => n.toString().padStart(2, '0');
-            const hours = pad(date.getHours());
-            const minutes = pad(date.getMinutes());
-            // const seconds = pad(date.getSeconds());
-            // return `${hours}:${minutes}:${seconds}`;
-            if (date.getSeconds() % 2 == 0) {
-                return `${hours}:${minutes}`;
-            } else {
-                return `${hours} ${minutes}`;
-            }
-        };
-
-        // Set once immediately
-        setCurrentTime(formatTime(new Date()));
-
-        // Update every second
-        const interval = setInterval(() => {
-            const now = new Date();
-            setCurrentTime(formatTime(now));
-        }, 1000);
-
-        return () => clearInterval(interval); // Cleanup interval on unmount
-    }, []);
-
     if (!clock) return <div>Loading...</div>;
-
-    let url = clock.jpg_url;
-
-    if (url.startsWith("https://github.com")) {
-        url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
-    }
 
     const handleInstallClockface = (url: string, customClockNum: number) => {
         // Validate the orb IP value
@@ -150,69 +118,24 @@ const ClockDetailPage = () => {
             .catch(error => console.error('Error marking download:', error));
     };
 
-    // Helper function to render time as image-based digits
-    const renderTimeAsImages = (time: string) => {
-        return time.split('').map((char, index) => {
-            // console.log(char);
-            let imageFileName: string;
-            if (char === ':') {
-                imageFileName = '11.jpg';
-            } else if (char === ' ') {
-                imageFileName = '10.jpg';
-            } else {
-                imageFileName = `${char}.jpg`; // Digit or other character
-            }
-            return (
-                <div key={index} className="clock-time-image-frame">
-                    <img
-                        key={index}
-                        src={`${url}/${imageFileName}`}
-                        alt={char}
-                    />
-                </div>
-            );
-        });
-    };
-
 
     return (
-        <div className="clock-detail-page">
-            {/*<button onClick={() => window.history.back()} className="back-button">Back</button>*/}
-            <div className="clock-stats">
+        <div className={styles["clock-detail-page"]}>
+            <div className={styles["clock-stats"]}>
                 <LikeToggle id={clock.id.toString()} initialLikes={clock.likes} initialLiked={clock.userLiked}
                             long={true}/>
                 <DownloadsCounter downloads={clock.downloads} long={true}/>
             </div>
             <h2>{clock.name}</h2>
             <div>by {clock.User.username}</div>
+            <ClockTimeCard clock={clock}/>
+            <AllClockImagesCard clock={clock}/>
 
-            <div className='card clock-time-card'>
-                {/*<div>*/}
-                <div className="clock-time">
-                    {renderTimeAsImages(currentTime)}
-                </div>
-                {/*</div>*/}
-            </div>
-            <div className='card'>
-                <h4 onClick={() => setImagesVisible(!isImagesVisible)} style={{cursor: 'pointer'}}>
-                    All Images {isImagesVisible ? '-' : '+'}
-                </h4>
-                {isImagesVisible && (
-                    <div className="clock-detail-images">
-                        {[...Array(12)].map((_, idx) => (
-                            // idx === 10 ? null : (
-                            <img key={idx} src={`${url}/${idx}.jpg`} alt={`${clock.name} - ${idx}`}/>
-                            // )
-                        ))}
-                    </div>)}
-
-            </div>
-
-            <div className='card'>
+            <Card>
                 <h4>Install this clockface on you InfoOrbs</h4>
-                <div className="flex-container">
+                <div className={styles["flex-container"]}>
                     {/* Orb IP Label + Input */}
-                    <div className="input-group">
+                    <div className={styles["input-group"]}>
                         <label htmlFor="orb-ip">InfoOrbs IP:</label>
                         <input
                             id="orb-ip"
@@ -220,11 +143,11 @@ const ClockDetailPage = () => {
                             value={orbIP}
                             onChange={(e) => setOrbIP(e.target.value)}
                             placeholder="192.168.x.x"
-                            className="orb-ip-input"
+                            className={styles["orb-ip-input"]}
                         />
                     </div>
                     {/* Custom Clock Number Label + Input */}
-                    <div className="input-group">
+                    <div className={styles["input-group"]}>
                         <label htmlFor="orb-customclockno">CustomClock #:</label>
                         <input
                             // disabled={status !== 'success' || !orbIP}
@@ -235,7 +158,7 @@ const ClockDetailPage = () => {
                             max="9"
                             onChange={(e) => setCustomClockNo(Number(e.target.value))}
                             placeholder="0-9"
-                            className="custom-clock-number-input"
+                            className={styles["custom-clock-number-input"]}
                         />
                     </div>
                     <button onClick={() => window.open(`http://${orbIP}/`, '_blank')}>
@@ -247,7 +170,7 @@ const ClockDetailPage = () => {
                         Install
                     </button>
                 </div>
-                <div className="install-info">
+                <div className={styles["install-info"]}>
                     <h4>How it works</h4>
                     <div>When you press "Install", we open a new tab that connects to your Orbs and
                         tries to install the clockface.
@@ -259,8 +182,8 @@ const ClockDetailPage = () => {
                         is not reachable.
                     </div>
                 </div>
-            </div>
-            {user && (user.isAdmin || user.id == clock.user_id) && (<button className="delete-button"
+            </Card>
+            {user && (user.isAdmin || user.id == clock.user_id) && (<button className={styles["delete-button"]}
                                                                             onClick={() => handleDeleteClockface()}>Delete
                 Clock
             </button>)}

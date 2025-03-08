@@ -69,69 +69,11 @@
     background-color: red;
 }
 
-.clock-time-card {
-    /*min-height: 135px;*/
-}
-
-.clock-time {
-    align-items: center;
-    width: auto;
-    justify-content: center;
-    display: flex;
-}
-
-.clock-time-image-frame {
-    aspect-ratio: 1 / 1;
-    max-width: 120px;
-    max-height: 120px;
-    height: auto;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 5px;
-    position: relative;
-    z-index: 1;
-    border: 1px solid #111;
-}
-
-.clock-time-image-frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
 .clock-stats {
     float: right;
     align-items: flex-end; /* Align items to the bottom */
 }
 
-.clock-detail-images {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Centers child elements */
-    gap: 20px; /* Add spacing between images */
-    margin-top: 20px; /* Space before detail images */
-}
-
-.clock-detail-images img {
-    max-width: 120px;
-    max-height: 120px;
-    aspect-ratio: 1 / 1;
-    width: auto;
-    height: auto;
-}
-
 .install-info {
     font-size: 14px;
-}
-
-
-@media only screen and (max-width: 480px) {
-    .clock-detail-images {
-        gap: 10px;
-    }
-
-    .clock-detail-images img {
-        width: calc(33% - 20px);
-    }
 }

@@ -1,0 +1,80 @@
+import styles from "./ClockTimeCard.module.css";
+import {Clock} from "../../types/Clock.ts";
+import {useEffect, useState} from "react";
+import Card from "../../components/Card.tsx";
+
+type ClockTimeCardProps = {
+    clock: Clock
+}
+
+const ClockTimeCard = ({clock}: ClockTimeCardProps) => {
+    const [currentTime, setCurrentTime] = useState<string>('');
+
+    useEffect(() => {
+        // Function to format time in MM:HH:SS format
+        const formatTime = (date: Date) => {
+            const pad = (n: number) => n.toString().padStart(2, '0');
+            const hours = pad(date.getHours());
+            const minutes = pad(date.getMinutes());
+            // const seconds = pad(date.getSeconds());
+            // return `${hours}:${minutes}:${seconds}`;
+            if (date.getSeconds() % 2 == 0) {
+                return `${hours}:${minutes}`;
+            } else {
+                return `${hours} ${minutes}`;
+            }
+        };
+
+        // Set once immediately
+        setCurrentTime(formatTime(new Date()));
+
+        // Update every second
+        const interval = setInterval(() => {
+            const now = new Date();
+            setCurrentTime(formatTime(now));
+        }, 1000);
+
+        return () => clearInterval(interval); // Cleanup interval on unmount
+    }, []);
+
+    // Helper function to render time as image-based digits
+    const renderTimeAsImages = (time: string) => {
+        return time.split('').map((char, index) => {
+            // console.log(char);
+            let imageFileName: string;
+            if (char === ':') {
+                imageFileName = '11.jpg';
+            } else if (char === ' ') {
+                imageFileName = '10.jpg';
+            } else {
+                imageFileName = `${char}.jpg`; // Digit or other character
+            }
+
+            let url = clock.jpg_url;
+
+            if (url.startsWith("https://github.com")) {
+                url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
+            }
+
+            return (
+                <div key={index} className={styles["clock-time-image-frame"]}>
+                    <img
+                        key={index}
+                        src={`${url}/${imageFileName}`}
+                        alt={char}
+                    />
+                </div>
+            );
+        });
+    };
+
+    return (
+        <Card className={styles['clock-time-card']}>
+            <div className={styles["clock-time"]}>
+                {renderTimeAsImages(currentTime)}
+            </div>
+        </Card>
+    );
+}
+
+export default ClockTimeCard;

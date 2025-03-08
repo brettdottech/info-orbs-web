@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/ConfirmationDialog.css'; // Add CSS here or inline styles (see below)
+import styles from './ConfirmationDialog.module.css';
 
 interface ConfirmationDialogProps {
     show: boolean; // Whether the dialog is visible
@@ -19,19 +19,19 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
     if (!show) return null; // Don't render if not visible
 
     return (
-        <div className="confirmation-dialog-overlay">
-            <div className="confirmation-dialog">
-                {title && <h3 className="confirmation-dialog-title">{title}</h3>}
-                <div className="confirmation-dialog-message">{message}</div>
-                <div className="confirmation-dialog-buttons">
+        <div className={styles["confirmation-dialog-overlay"]}>
+            <div className={styles["confirmation-dialog"]}>
+                {title && <h3 className={styles["confirmation-dialog-title"]}>{title}</h3>}
+                <div className={styles["confirmation-dialog-message"]}>{message}</div>
+                <div className={styles["confirmation-dialog-buttons"]}>
                     <button
-                        className="confirmation-dialog-button confirm-button"
+                        className={styles["confirmation-dialog-button confirm-button"]}
                         onClick={onConfirm}
                     >
                         Confirm
                     </button>
                     <button
-                        className="confirmation-dialog-button cancel-button"
+                        className={styles["confirmation-dialog-button cancel-button"]}
                         onClick={onCancel}
                     >
                         Cancel

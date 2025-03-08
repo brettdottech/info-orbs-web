@@ -1,0 +1,12 @@
+.clock-list {
+    display: block;
+}
+
+@media only screen and (max-width: 480px) {
+    .clock-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        width: auto;
+    }
+}

@@ -1,0 +1,36 @@
+.clock-time-image-frame {
+    aspect-ratio: 1 / 1;
+    max-width: 120px;
+    max-height: 120px;
+    height: auto;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 5px;
+    position: relative;
+    z-index: 1;
+    border: 1px solid #111;
+}
+
+.clock-time-image-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.clock-time-card {
+    /*min-height: 135px;*/
+}
+
+.clock-time {
+    align-items: center;
+    width: auto;
+    justify-content: center;
+    display: flex;
+}
+
+@media only screen and (max-width: 480px) {
+    .clock-time-image-frame {
+        margin: 1px;
+    }
+}

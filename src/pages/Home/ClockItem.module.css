@@ -29,13 +29,6 @@
 
 
 @media only screen and (max-width: 480px) {
-    .clock-list {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        width: auto;
-    }
-
     .clock-card {
         margin: 20px 10px;
         width: calc(50% - 20px);

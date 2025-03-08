@@ -1,12 +1,12 @@
 import {Link, Route, Routes} from "react-router-dom";
 import {useContext} from "react";
 import {AuthContext} from "./context/AuthContext";
-import HomePage from "./pages/HomePage";
-import ClockDetailPage from "./pages/ClockDetailPage";
-import AddClockPage from "./pages/AddClockPage";
-import UserAccountPage from "./pages/UserAccountPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
+import HomePage from "./pages/Home/HomePage.tsx";
+import ClockDetailPage from "./pages/ClockDetail/ClockDetailPage.tsx";
+import AddClockPage from "./pages/AddClock/AddClockPage.tsx";
+import UserAccountPage from "./pages/UserAccount/UserAccountPage.tsx";
+import LoginPage from "./pages/Login/LoginPage.tsx";
+import RegisterPage from "./pages/Register/RegisterPage.tsx";
 import {ToastContainer} from 'react-toastify'; // Import ToastContainer
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 

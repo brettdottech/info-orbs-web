@@ -1,6 +1,7 @@
 import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faDownload} from '@fortawesome/free-solid-svg-icons';
+import styles from './DownloadsCounter.module.css';
 
 interface DownloadsCounterProps {
     downloads: number;
@@ -11,16 +12,11 @@ const DownloadsCounter: React.FC<DownloadsCounterProps> = ({
                                                                downloads, long
                                                            }) => {
     return (
-        <div
-            style={{
-                display: 'flex',
-                alignItems: 'center',
-                margin: '0 8px'
-            }}
+        <div className={styles['downloads-counter']}
         >
             <FontAwesomeIcon
                 icon={faDownload} // Toggle icon
-                style={{color: 'lightgrey', marginRight: '8px'}} // Toggle color
+                className={styles['icon-download']}
             />
             {downloads}{long ? " downloads" : ""}
         </div>
