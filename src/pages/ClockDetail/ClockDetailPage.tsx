@@ -104,9 +104,17 @@ const ClockDetailPage = () => {
     };
 
     const markDownload = () => {
-        clock.downloads++;
         axios.post(`${config.backendURL}/clocks/${clock.id}/dl`)
-            .then()
+            .then(response => {
+                // console.log(response);
+                if (response.data && response.data.downloads) {
+                    // Update download counter on page
+                    setClock((prevClock) => prevClock ? {
+                        ...prevClock,
+                        downloads: response.data.downloads,
+                    } : null);
+                }
+            })
             .catch(error => console.error('Error marking download:', error));
     };
 
