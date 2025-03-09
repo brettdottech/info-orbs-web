@@ -24,7 +24,10 @@ const ClockDetailPage = () => {
     const {id} = useParams();
     const [clock, setClock] = useState<Clock | null>(null);
     const [orbIP, setOrbIP] = useState<string>(''); // State for the orb IP input
-    const [customClockNo, setCustomClockNo] = useState<number>(0); // State for the orb IP input
+    const [customClockNo, setCustomClockNo] = useState<number>(() => {
+        const savedCustomClockNo = localStorage.getItem('customClockNo');
+        return savedCustomClockNo !== null ? Number(savedCustomClockNo) : 0; // Default to 0 if invalid or out of range
+    });
     const [isInstallDialogOpen, setIsInstallDialogOpen] = useState<boolean>(false); // Dialog visibility state
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false); // Dialog visibility state
     const [pendingUrl, setPendingUrl] = useState<string>(''); // URL pending confirmation
@@ -39,10 +42,6 @@ const ClockDetailPage = () => {
         if (savedOrbIP) {
             setOrbIP(savedOrbIP); // Set the state with the saved IP address
         }
-        const savedCustomClockNo = localStorage.getItem('customClockNo');
-        if (savedCustomClockNo) {
-            setCustomClockNo(parseInt(savedCustomClockNo, 10));
-        }
     }, []); // Empty dependency array ensures this runs only once on mount
 
     // Save orbIP to localStorage whenever it changes
@@ -54,7 +53,7 @@ const ClockDetailPage = () => {
 
     // Save customClockNo to localStorage whenever it changes
     useEffect(() => {
-        if (customClockNo) {
+        if (customClockNo >= 0 && customClockNo <= 9) {
             localStorage.setItem('customClockNo', customClockNo.toString()); // Update localStorage
         }
     }, [customClockNo]); // Runs every time orbIP is updated
