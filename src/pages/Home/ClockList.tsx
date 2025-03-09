@@ -10,7 +10,7 @@ const ClockList = ({clocks}: ClockListProps) => {
     return (
         <div className={styles["clock-list"]}>
             {clocks.map((clock: Clock) => (
-                <ClockItem clock={clock}/>
+                <ClockItem key={clock.id} clock={clock}/>
             ))}
         </div>
     )
