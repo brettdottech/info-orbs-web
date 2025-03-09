@@ -26,7 +26,7 @@ const ClockDetailPage = () => {
     const [orbIP, setOrbIP] = useState<string>(''); // State for the orb IP input
     const [customClockNo, setCustomClockNo] = useState<number>(() => {
         const savedCustomClockNo = localStorage.getItem('customClockNo');
-        return savedCustomClockNo !== null ? Number(savedCustomClockNo) : 0; // Default to 0 if invalid or out of range
+        return savedCustomClockNo !== null ? Number(savedCustomClockNo) : 0; // Default to 0 if invalid
     });
     const [isInstallDialogOpen, setIsInstallDialogOpen] = useState<boolean>(false); // Dialog visibility state
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false); // Dialog visibility state
@@ -56,7 +56,7 @@ const ClockDetailPage = () => {
         if (customClockNo >= 0 && customClockNo <= 9) {
             localStorage.setItem('customClockNo', customClockNo.toString()); // Update localStorage
         }
-    }, [customClockNo]); // Runs every time orbIP is updated
+    }, [customClockNo]); // Runs every time customClockNo is updated
 
     useEffect(() => {
         axios.get(`${config.backendURL}/clocks/${id}`)
