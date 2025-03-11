@@ -1,0 +1,46 @@
+/* Outer container holding all elements in one row */
+.flex-container {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Space between groups */
+    margin-bottom: 16px; /* Space below */
+    margin-top: 8px;
+    max-width: 100%;
+    width: auto;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+/* Group container for label and input (pairing them horizontally) */
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-grow: 1;
+}
+
+/* Label styling */
+.input-group label {
+    font-size: 16px;
+    font-weight: bold;
+    white-space: nowrap; /* Prevent labels from wrapping */
+}
+
+/* Orb IP input styling */
+.input-group input {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 1; /* Take up available space */
+}
+
+/* Orb IP input styling */
+.input-group textarea {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 1; /* Take up available space */
+    width: 100%;
+}

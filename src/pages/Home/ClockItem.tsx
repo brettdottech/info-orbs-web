@@ -10,21 +10,14 @@ type ClockItemProps = {
 }
 
 const ClockItem = ({clock}: ClockItemProps) => {
-    let url = clock.jpg_url;
-    if (url === null) {
-        url = `${config.backendURL}/images/${clock.id}`
-    } else {
-        if (url.startsWith("https://github.com")) {
-            url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
-        }
-    }
+    let url = `${config.backendURL}/images/${clock.id}`
     url += `/${Math.floor(Math.random() * 10)}.jpg`;
     const link = `/clock/${clock.id}`;
     return (
         <div key={clock.id} className={styles["clock-card"]}>
             <Link to={link}><img src={url} alt={clock.name} width="120" height="120"/></Link>
             <h3>{clock.name}</h3>
-            <div>by {clock.User.username}</div>
+            <div>by {clock.author && clock.author.length > 0 ? clock.author : clock.User.username}</div>
             <div style={{display: "flex", justifyContent: "center"}}>
                 <LikeToggle id={clock.id.toString()}
                             initialLikes={clock.likes}

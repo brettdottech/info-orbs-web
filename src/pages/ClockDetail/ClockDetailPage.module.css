@@ -19,7 +19,7 @@
 
 /* Label styling */
 .input-group label {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bold;
     white-space: nowrap; /* Prevent labels from wrapping */
 }
@@ -50,6 +50,22 @@
     background-color: #770000; /* Darker blue for hover */
 }
 
+.edit-button {
+
+}
+
+.edit-button:hover {
+
+}
+
+.update-button {
+    background-color: #4e9800;
+}
+
+.update-button:hover {
+    background-color: #3b7000; /* Darker blue for hover */
+}
+
 /* Status indicator (default state is hidden) */
 .status-indicator {
     width: 16px;
@@ -76,4 +92,14 @@
 
 .install-info {
     font-size: 14px;
+}
+
+.flex-container-right {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 16px; /* Space between groups */
 }

@@ -51,15 +51,7 @@ const ClockTimeCard = ({clock}: ClockTimeCardProps) => {
                 imageFileName = `${char}.jpg`; // Digit or other character
             }
 
-            let url = clock.jpg_url;
-
-            if (url === null) {
-                url = `${config.backendURL}/images/${clock.id}`
-            } else {
-                if (url.startsWith("https://github.com")) {
-                    url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
-                }
-            }
+            const url = `${config.backendURL}/images/${clock.id}`
 
             return (
                 <div key={index} className={styles["clock-time-image-frame"]}>

@@ -33,6 +33,7 @@ const ClockDetailPage = () => {
     const [pendingUrl, setPendingUrl] = useState<string>(''); // URL pending confirmation
     const [pendingCustomClockNum, setPendingCustomClockNum] = useState<number>(0); // Clock num pending confirmation
     const [showInfo, setShowInfo] = useState<boolean>(false);
+    const [editMode, setEditMode] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
@@ -81,9 +82,10 @@ const ClockDetailPage = () => {
 
     const confirmInstallClockface = () => {
         setIsInstallDialogOpen(false); // Close confirmation dialog
+        const author = clock.author && clock.author.length > 0 ? clock.author : clock.User.username;
         // Open the URL in a new tab
         window.open(
-            `http://${orbIP}/fetchFromClockRepo?url=${encodeURIComponent(pendingUrl)}&customClock=${pendingCustomClockNum}&clockName=${clock.name}&authorName=${clock.User.username}`,
+            `http://${orbIP}/fetchFromClockRepo?url=${encodeURIComponent(pendingUrl)}&customClock=${pendingCustomClockNum}&clockName=${clock.name}&authorName=${author}`,
             '_blank');
         markDownload();
     };
@@ -117,17 +119,26 @@ const ClockDetailPage = () => {
             .catch(error => console.error('Error marking download:', error));
     };
 
+    const url = `${config.backendURL}/images/${clock.id}`;
+    const canEdit = user && (user.isAdmin || user.id == clock.user_id);
 
     return (
         <div className={styles["clock-detail-page"]}>
-            <div className={styles["clock-stats"]}>
-                <LikeToggle id={clock.id.toString()} initialLikes={clock.likes} initialLiked={clock.userLiked}
-                            long={true}/>
-                <DownloadsCounter downloads={clock.downloads} long={true}/>
-            </div>
-            <h2>{clock.name}</h2>
-            <div>by {clock.User.username}</div>
+            <Card>
+                <div className={styles["clock-stats"]}>
+                    <LikeToggle id={clock.id.toString()} initialLikes={clock.likes} initialLiked={clock.userLiked}
+                                long={true}/>
+                    <DownloadsCounter downloads={clock.downloads} long={true}/>
+                </div>
+                <h2>{clock.name}</h2>
+                <div>by {clock.author && clock.author.length > 0 ? clock.author : clock.User.username}</div>
+                {clock.author && clock.author.length > 0 && (<div>Uploaded by {clock.User.username}</div>)}
+                {clock.url && clock.url.length > 0 && (<div><a href={clock.url} target="_blank">{clock.url}</a></div>)}
+            </Card>
             <ClockTimeCard clock={clock}/>
+            {clock.description && clock.description.length > 0 && (<Card>
+                <div>{clock.description}</div>
+            </Card>)}
             <AllClockImagesCard clock={clock}/>
 
             <Card>
@@ -164,7 +175,7 @@ const ClockDetailPage = () => {
                         Open WebPortal
                     </button>
                     <button id="install-clockface"
-                            onClick={() => handleInstallClockface(clock.jpg_url, customClockNo)}
+                            onClick={() => handleInstallClockface(url, customClockNo)}
                     >
                         Install
                     </button>
@@ -187,10 +198,25 @@ const ClockDetailPage = () => {
                     </div>
                 </div>
             </Card>
-            {user && (user.isAdmin || user.id == clock.user_id) && (<button className={styles["delete-button"]}
-                                                                            onClick={() => handleDeleteClockface()}>Delete
-                Clock
-            </button>)}
+            {canEdit && (
+                <div className={styles["flex-container-right"]}>
+                    {/*{!editMode ? (*/}
+                    {/*    <button className={styles["edit-button"]}*/}
+                    {/*            onClick={() => setEditMode(true)}>*/}
+                    {/*        Edit Clock*/}
+                    {/*    </button>*/}
+                    {/*) : (*/}
+                    {/*    <button className={styles["update-button"]}*/}
+                    {/*            onClick={() => setEditMode(false)}>*/}
+                    {/*        Update Clock*/}
+                    {/*    </button>*/}
+                    {/*)}*/}
+                    <button className={styles["delete-button"]}
+                            onClick={() => handleDeleteClockface()}>
+                        Delete Clock
+                    </button>
+                </div>
+            )}
             {/*<ProgressSpinner*/}
             {/*    show={loading}*/}
             {/*    title="Uploading Clockface to InfoOrbs"*/}

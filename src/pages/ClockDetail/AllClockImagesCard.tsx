@@ -10,15 +10,7 @@ type AllClockImagesCardProps = {
 const AllClockImagesCard = ({clock}: AllClockImagesCardProps) => {
     const [isImagesVisible, setImagesVisible] = useState<boolean>(false);
 
-    let url = clock.jpg_url;
-
-    if (url === null) {
-        url = `${config.backendURL}/images/${clock.id}`
-    } else {
-        if (url.startsWith("https://github.com")) {
-            url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
-        }
-    }
+    const url = `${config.backendURL}/images/${clock.id}`
 
     return (
         <Card>
