@@ -1,3 +1,13 @@
 .home-page {
+}
 
+.sort-container {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Space between groups */
+    margin-top: 16px;
+    max-width: 100%;
+    width: auto;
+    flex-wrap: wrap;
+    justify-content: right;
 }

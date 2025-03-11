@@ -6,8 +6,8 @@ export interface Clock {
     description: string | null;
     user_id: number;
     downloads: number;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: Date;
+    updatedAt: Date;
     likes: number;
     userLiked: boolean;
     User: {
