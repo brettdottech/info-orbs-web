@@ -33,7 +33,7 @@ const ClockDetailPage = () => {
     const [pendingUrl, setPendingUrl] = useState<string>(''); // URL pending confirmation
     const [pendingCustomClockNum, setPendingCustomClockNum] = useState<number>(0); // Clock num pending confirmation
     const [showInfo, setShowInfo] = useState<boolean>(false);
-    const [editMode, setEditMode] = useState<boolean>(false);
+    // const [editMode, setEditMode] = useState<boolean>(false);
 
     const navigate = useNavigate();
 
