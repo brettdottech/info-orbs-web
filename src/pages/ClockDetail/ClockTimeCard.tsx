@@ -2,6 +2,7 @@ import styles from "./ClockTimeCard.module.css";
 import {Clock} from "../../types/Clock.ts";
 import {useEffect, useState} from "react";
 import Card from "../../components/Card.tsx";
+import config from "../../config.ts";
 
 type ClockTimeCardProps = {
     clock: Clock
@@ -52,8 +53,12 @@ const ClockTimeCard = ({clock}: ClockTimeCardProps) => {
 
             let url = clock.jpg_url;
 
-            if (url.startsWith("https://github.com")) {
-                url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
+            if (url === null) {
+                url = `${config.backendURL}/images/${clock.id}`
+            } else {
+                if (url.startsWith("https://github.com")) {
+                    url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
+                }
             }
 
             return (

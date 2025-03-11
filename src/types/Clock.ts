@@ -1,6 +1,7 @@
 export interface Clock {
     id: number;
     name: string;
+    author: string | null;
     jpg_url: string;
     description: string | null;
     user_id: number;

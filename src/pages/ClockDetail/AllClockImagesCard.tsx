@@ -2,6 +2,7 @@ import styles from './AllClockImagesCard.module.css';
 import Card from "../../components/Card.tsx";
 import {useState} from "react";
 import {Clock} from "../../types/Clock.ts";
+import config from "../../config.ts";
 
 type AllClockImagesCardProps = {
     clock: Clock;
@@ -9,11 +10,14 @@ type AllClockImagesCardProps = {
 const AllClockImagesCard = ({clock}: AllClockImagesCardProps) => {
     const [isImagesVisible, setImagesVisible] = useState<boolean>(false);
 
-    // TODO fix URLs in DB
-    // because this here will not work if the clock is updated -> bad practise
     let url = clock.jpg_url;
-    if (url.startsWith("https://github.com")) {
-        url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
+
+    if (url === null) {
+        url = `${config.backendURL}/images/${clock.id}`
+    } else {
+        if (url.startsWith("https://github.com")) {
+            url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
+        }
     }
 
     return (

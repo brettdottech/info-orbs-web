@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import LikeToggle from "../../components/LikeToggle.tsx";
 import DownloadsCounter from "../../components/DownloadsCounter.tsx";
 import {Clock} from "../../types/Clock.ts";
+import config from "../../config.ts";
 
 type ClockItemProps = {
     clock: Clock
@@ -10,8 +11,12 @@ type ClockItemProps = {
 
 const ClockItem = ({clock}: ClockItemProps) => {
     let url = clock.jpg_url;
-    if (url.startsWith("https://github.com")) {
-        url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
+    if (url === null) {
+        url = `${config.backendURL}/images/${clock.id}`
+    } else {
+        if (url.startsWith("https://github.com")) {
+            url = url.replace("github.com", "raw.githubusercontent.com").replace("tree", "refs/heads");
+        }
     }
     url += `/${Math.floor(Math.random() * 10)}.jpg`;
     const link = `/clock/${clock.id}`;
