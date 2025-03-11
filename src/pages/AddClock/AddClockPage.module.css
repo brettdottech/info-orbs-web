@@ -92,5 +92,4 @@
 .drag-and-drop label {
     font-size: 16px;
     font-weight: bold;
-    white-space: nowrap; /* Prevent labels from wrapping */
 }
