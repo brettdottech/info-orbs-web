@@ -53,6 +53,10 @@
     margin-bottom: 10px;
 }
 
+.dropzone-active {
+    border: 2px dashed #0078d4;
+}
+
 .thumbnailsContainer {
     display: flex;
     flex-wrap: wrap;

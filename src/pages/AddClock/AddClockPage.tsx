@@ -243,11 +243,12 @@ const AddClockPage = () => {
                         <div
                             {...getRootProps()}
                             className={styles['dropzone']}
+                            style={isDragActive ? {borderColor: "#0078d4"} : {}} // blue if active
                             hidden={!showDragAndDrop}
                         >
                             <input {...getInputProps()} />
                             {isDragActive ? (
-                                <p>Drop the images here...</p>
+                                <p style={{color: "#0078d4"}}>Drop the images here...</p>
                             ) : (
                                 <p>Drag and drop JPG files here, or click to select them</p>
                             )}
