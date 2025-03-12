@@ -5,10 +5,12 @@ import Card from "../../components/Card.tsx";
 import config from "../../config.ts";
 
 type ClockTimeCardProps = {
-    clock: Clock
+    clock: Clock,
+    secondHandColor: string,
+    overrideColor: string,
 }
 
-const ClockTimeCard = ({clock}: ClockTimeCardProps) => {
+const ClockTimeCard = ({clock, secondHandColor, overrideColor}: ClockTimeCardProps) => {
     const [currentTime, setCurrentTime] = useState<string>('');
 
     useEffect(() => {
@@ -38,6 +40,8 @@ const ClockTimeCard = ({clock}: ClockTimeCardProps) => {
         return () => clearInterval(interval); // Cleanup interval on unmount
     }, []);
 
+    const hasColorOverride = (overrideColor !== '#000' && overrideColor !== '#000000');
+
     // Helper function to render time as image-based digits
     const renderTimeAsImages = (time: string) => {
         return time.split('').map((char, index) => {
@@ -54,7 +58,10 @@ const ClockTimeCard = ({clock}: ClockTimeCardProps) => {
             const url = `${config.backendURL}/images/${clock.id}`
 
             return (
-                <div key={index} className={styles["clock-time-image-frame"]}>
+                <div key={index}
+                     className={hasColorOverride ? styles["clock-time-image-frame-override"] : styles["clock-time-image-frame"]}
+                     style={hasColorOverride ? {'--override-color': overrideColor} as React.CSSProperties : undefined}>
+
                     <img
                         key={index}
                         src={`${url}/${imageFileName}`}

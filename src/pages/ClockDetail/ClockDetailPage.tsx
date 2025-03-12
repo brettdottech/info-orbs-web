@@ -28,6 +28,8 @@ const ClockDetailPage = () => {
         const savedCustomClockNo = localStorage.getItem('customClockNo');
         return savedCustomClockNo !== null ? Number(savedCustomClockNo) : 0; // Default to 0 if invalid
     });
+    const [secondHandColor, setSecondHandColor] = useState<string>("#000");
+    const [overrideColor, setOverrideColor] = useState<string>("#000");
     const [isInstallDialogOpen, setIsInstallDialogOpen] = useState<boolean>(false); // Dialog visibility state
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false); // Dialog visibility state
     const [pendingUrl, setPendingUrl] = useState<string>(''); // URL pending confirmation
@@ -135,7 +137,7 @@ const ClockDetailPage = () => {
                 {clock.author && clock.author.length > 0 && (<div>Uploaded by {clock.User.username}</div>)}
                 {clock.url && clock.url.length > 0 && (<div><a href={clock.url} target="_blank">{clock.url}</a></div>)}
             </Card>
-            <ClockTimeCard clock={clock}/>
+            <ClockTimeCard clock={clock} secondHandColor={secondHandColor} overrideColor={overrideColor}/>
             {clock.description && clock.description.length > 0 && (<Card>
                 <div>{clock.description}</div>
             </Card>)}
@@ -170,6 +172,16 @@ const ClockDetailPage = () => {
                             placeholder="0-9"
                             className={styles["custom-clock-number-input"]}
                         />
+                    </div>
+                    <div className={styles["input-group"]}>
+                        <label htmlFor="secondcolor">Second hand:</label>
+                        <input id="secondcolor" type="color" value={secondHandColor}
+                               onChange={(e) => setSecondHandColor(e.target.value)}/>
+                    </div>
+                    <div className={styles["input-group"]}>
+                        <label htmlFor="overridecolor">Override:</label>
+                        <input id="overridecolor" type="color" value={overrideColor}
+                               onChange={(e) => setOverrideColor(e.target.value)}/>
                     </div>
                     <button onClick={() => window.open(`http://${orbIP}/`, '_blank')}>
                         Open WebPortal

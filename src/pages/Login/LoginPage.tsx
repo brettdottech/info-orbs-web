@@ -23,13 +23,13 @@ const LoginPage = () => {
                 <Card>
                     <div className={styles['flex-container']}>
                         <div className={styles['input-group']}>
-                            <label htmlFor="email">email</label>
+                            <label htmlFor="email">Email</label>
                             <input type="email" placeholder="Email" value={email}
                                    onChange={(e) => setEmail(e.target.value)}
                                    required/>
                         </div>
                         <div className={styles['input-group']}>
-                            <label htmlFor="password">password</label>
+                            <label htmlFor="password">Password</label>
                             <input type="password" placeholder="Password" value={password}
                                    onChange={(e) => setPassword(e.target.value)} required/>
                         </div>
