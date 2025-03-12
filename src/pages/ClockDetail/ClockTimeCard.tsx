@@ -12,6 +12,7 @@ type ClockTimeCardProps = {
 
 const ClockTimeCard = ({clock, secondHandColor, overrideColor}: ClockTimeCardProps) => {
     const [currentTime, setCurrentTime] = useState<string>('');
+    const [seconds, setSeconds] = useState(0);
 
     useEffect(() => {
         // Function to format time in MM:HH:SS format
@@ -35,11 +36,13 @@ const ClockTimeCard = ({clock, secondHandColor, overrideColor}: ClockTimeCardPro
         const interval = setInterval(() => {
             const now = new Date();
             setCurrentTime(formatTime(now));
+            setSeconds(now.getSeconds());
         }, 1000);
 
         return () => clearInterval(interval); // Cleanup interval on unmount
     }, []);
 
+    const hasSecondHandColor = (secondHandColor !== '#000' && secondHandColor !== '#000000');
     const hasColorOverride = (overrideColor !== '#000' && overrideColor !== '#000000');
 
     // Helper function to render time as image-based digits
@@ -61,7 +64,13 @@ const ClockTimeCard = ({clock, secondHandColor, overrideColor}: ClockTimeCardPro
                 <div key={index}
                      className={hasColorOverride ? styles["clock-time-image-frame-override"] : styles["clock-time-image-frame"]}
                      style={hasColorOverride ? {'--override-color': overrideColor} as React.CSSProperties : undefined}>
-
+                    <div hidden={!hasSecondHandColor} className={styles['arc-rotate']} style={{
+                        transform: `translate(-50%, -50%) scale(101%) rotate(${(seconds / 60) * 360}deg`
+                    }}>
+                        <div className={styles['arc-rect']} style={{
+                            backgroundColor: secondHandColor,
+                        }}></div>
+                    </div>
                     <img
                         key={index}
                         src={`${url}/${imageFileName}`}

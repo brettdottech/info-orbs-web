@@ -7,7 +7,7 @@
     overflow: hidden;
     margin: 5px;
     position: relative;
-    z-index: 1;
+    z-index: 10;
     border: 1px solid #111;
 }
 
@@ -17,6 +17,28 @@
     object-fit: cover;
     display: block;
 }
+
+.arc-rotate {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform-origin: 50% 50%; /* Center of the parent element */
+    transform: translate(-50%, -50%) scale(101%) rotate(45deg); /* Rotate around parent, not itself */
+    z-index: 5;
+}
+
+/* Small square positioned on the border */
+.arc-rect {
+    position: absolute;
+    width: 4%; /* Width of the square */
+    height: 4%; /* Height of the square */
+    background-color: red; /* Color of the square */
+    top: 0; /* Start at the top edge of the circle */
+    left: 50%; /* Center horizontally */
+}
+
 
 .clock-time-card {
     /*min-height: 135px;*/
