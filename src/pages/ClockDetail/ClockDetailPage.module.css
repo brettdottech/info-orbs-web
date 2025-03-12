@@ -103,3 +103,11 @@
     justify-content: flex-end;
     gap: 16px; /* Space between groups */
 }
+
+.install-button {
+    background-color: #4e9800;
+}
+
+.install-button:hover {
+    background-color: #3b7000;
+}

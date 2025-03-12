@@ -24,10 +24,7 @@ const ClockDetailPage = () => {
     const {id} = useParams();
     const [clock, setClock] = useState<Clock | null>(null);
     const [orbIP, setOrbIP] = useState<string>(''); // State for the orb IP input
-    const [customClockNo, setCustomClockNo] = useState<number>(() => {
-        const savedCustomClockNo = localStorage.getItem('customClockNo');
-        return savedCustomClockNo !== null ? Number(savedCustomClockNo) : 0; // Default to 0 if invalid
-    });
+    const [customClockNo, setCustomClockNo] = useState<number>(0);
     const [secondHandColor, setSecondHandColor] = useState<string>("#000000");
     const [overrideColor, setOverrideColor] = useState<string>("#000000");
     const [isInstallDialogOpen, setIsInstallDialogOpen] = useState<boolean>(false); // Dialog visibility state
@@ -35,6 +32,7 @@ const ClockDetailPage = () => {
     const [pendingUrl, setPendingUrl] = useState<string>(''); // URL pending confirmation
     const [pendingCustomClockNum, setPendingCustomClockNum] = useState<number>(0); // Clock num pending confirmation
     const [showInfo, setShowInfo] = useState<boolean>(false);
+    const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
     // const [editMode, setEditMode] = useState<boolean>(false);
 
     const navigate = useNavigate();
@@ -53,13 +51,6 @@ const ClockDetailPage = () => {
             localStorage.setItem('orbIP', orbIP); // Update localStorage
         }
     }, [orbIP]); // Runs every time orbIP is updated
-
-    // Save customClockNo to localStorage whenever it changes
-    useEffect(() => {
-        if (customClockNo >= 0 && customClockNo <= 9) {
-            localStorage.setItem('customClockNo', customClockNo.toString()); // Update localStorage
-        }
-    }, [customClockNo]); // Runs every time customClockNo is updated
 
     useEffect(() => {
         axios.get(`${config.backendURL}/clocks/${id}`)
@@ -165,37 +156,47 @@ const ClockDetailPage = () => {
                         />
                     </div>
                     {/* Custom Clock Number Label + Input */}
-                    <div className={styles["input-group"]}>
-                        <label htmlFor="orb-customclockno">CustomClock #:</label>
-                        <input
-                            // disabled={status !== 'success' || !orbIP}
-                            id="orb-customclockno"
-                            type="number"
-                            value={customClockNo}
-                            min="0"
-                            max="9"
-                            onChange={(e) => setCustomClockNo(Number(e.target.value))}
-                            placeholder="0-9"
-                            className={styles["custom-clock-number-input"]}
-                        />
-                    </div>
-                    <div className={styles["input-group"]}>
-                        <label htmlFor="secondcolor">Second hand:</label>
-                        <input id="secondcolor" type="color" value={secondHandColor}
-                               onChange={(e) => setSecondHandColor(e.target.value)}/>
-                    </div>
-                    <div className={styles["input-group"]}>
-                        <label htmlFor="overridecolor">Override:</label>
-                        <input id="overridecolor" type="color" value={overrideColor}
-                               onChange={(e) => setOverrideColor(e.target.value)}/>
-                    </div>
-                    <button onClick={() => window.open(`http://${orbIP}/`, '_blank')}>
-                        Open WebPortal
-                    </button>
+                    {showAdvanced && (
+                        <>
+                            <div className={styles["input-group"]}>
+                                <label htmlFor="orb-customclockno">CustomClock #:</label>
+                                <input
+                                    // disabled={status !== 'success' || !orbIP}
+                                    id="orb-customclockno"
+                                    type="number"
+                                    value={customClockNo}
+                                    min="0"
+                                    max="9"
+                                    onChange={(e) => setCustomClockNo(Number(e.target.value))}
+                                    placeholder="0-9"
+                                    className={styles["custom-clock-number-input"]}
+                                />
+                            </div>
+                            <div className={styles["input-group"]}>
+                                <label htmlFor="secondcolor">Second hand:</label>
+                                <input id="secondcolor" type="color" value={secondHandColor}
+                                       onChange={(e) => setSecondHandColor(e.target.value)}/>
+                            </div>
+                            <div className={styles["input-group"]}>
+                                <label htmlFor="overridecolor">Override:</label>
+                                <input id="overridecolor" type="color" value={overrideColor}
+                                       onChange={(e) => setOverrideColor(e.target.value)}/>
+                            </div>
+                            <button onClick={() => window.open(`http://${orbIP}/`, '_blank')}>
+                                Open WebPortal
+                            </button>
+                        </>
+                    )}
                     <button id="install-clockface"
+                            className={styles["install-button"]}
                             onClick={() => handleInstallClockface(url, customClockNo)}
                     >
                         Install
+                    </button>
+                    <button id="show-advanced" hidden={showAdvanced}
+                            onClick={() => setShowAdvanced(true)}
+                    >
+                        Show Advanced
                     </button>
                 </div>
                 <div className={styles["install-info"]}>
