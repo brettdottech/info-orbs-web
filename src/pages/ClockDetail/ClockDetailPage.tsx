@@ -90,7 +90,7 @@ const ClockDetailPage = () => {
         const author = clock.author && clock.author.length > 0 ? clock.author : clock.User.username;
         const installUrl = `http://${orbIP}/fetchFromClockRepo?`
             + `url=${encodeURIComponent(pendingUrl)}&customClock=${pendingCustomClockNum}&`
-            + `clockName=${clock.name}&authorName=${author}&`
+            + `clockName=${encodeURIComponent(clock.name)}&authorName=${encodeURIComponent(author)}&`
             + `secondHandColor=${encodeURIComponent(secondHandColor)}&overrideColor=${encodeURIComponent(overrideColor)}`
         console.log(installUrl);
         // Open the URL in a new tab
