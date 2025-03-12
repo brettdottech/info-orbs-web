@@ -23,7 +23,7 @@
 .input-group label {
     font-size: 16px;
     font-weight: bold;
-    white-space: nowrap; /* Prevent labels from wrapping */
+    /*white-space: nowrap; !* Prevent labels from wrapping *!*/
 }
 
 /* Orb IP input styling */
@@ -33,6 +33,16 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     flex: 1; /* Take up available space */
+}
+
+/* Orb IP input styling */
+.input-group .secondHandColor {
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    min-height: 2em;
+    min-width: 5em;
+    flex: 0;
 }
 
 /* Orb IP input styling */

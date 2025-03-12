@@ -16,7 +16,7 @@ type FilePreview = {
 };
 
 const AddClockPage = () => {
-    const [form, setForm] = useState({name: '', author: '', url: '', description: ''});
+    const [form, setForm] = useState({name: '', author: '', url: '', description: '', secondHandColor: '#ffffff'});
     const [files, setFiles] = useState<FilePreview[]>([]);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
@@ -205,10 +205,11 @@ const AddClockPage = () => {
                             />
                         </div>
                         <div className={styles['input-group']}>
-                            <label htmlFor="author">Author Name (optional)</label>
+                            <label htmlFor="author">Author Name</label>
                             <input
                                 type="text"
                                 id="author"
+                                placeholder="Optional"
                                 value={form.author}
                                 onChange={handleInputChange}
                             />
@@ -216,10 +217,11 @@ const AddClockPage = () => {
                     </div>
                     <div className={styles['flex-container']}>
                         <div className={styles['input-group']}>
-                            <label htmlFor="name">URL (optional)</label>
+                            <label htmlFor="name">URL</label>
                             <input
                                 type="text"
                                 id="url"
+                                placeholder="Optional"
                                 value={form.url}
                                 onChange={handleInputChange}
                             />
@@ -230,10 +232,17 @@ const AddClockPage = () => {
                             <label htmlFor="desc">Description</label>
                             <textarea
                                 id="description"
+                                placeholder="Optional"
                                 value={form.description}
                                 onChange={handleInputChange}
                             />
                         </div>
+                    </div>
+                    <div className={styles["input-group"]}>
+                        <label htmlFor="secondHandColor">Recommended seconds color:</label>
+                        <input id="secondHandColor" className={styles['secondHandColor']} type="color"
+                               value={form.secondHandColor}
+                               onChange={handleInputChange}/>
                     </div>
                 </Card>
                 <Card>
