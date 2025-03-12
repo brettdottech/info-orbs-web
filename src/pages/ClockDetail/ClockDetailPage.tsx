@@ -122,7 +122,7 @@ const ClockDetailPage = () => {
     };
 
     const url = `${config.backendURL}/images/${clock.id}`;
-    const canEdit = user && (user.isAdmin || user.id == clock.user_id);
+    const canEdit = user && (user.isAdmin || user.id == clock.userId);
 
     return (
         <div className={styles["clock-detail-page"]}>
