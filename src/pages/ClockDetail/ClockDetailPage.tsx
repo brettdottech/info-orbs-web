@@ -28,8 +28,8 @@ const ClockDetailPage = () => {
         const savedCustomClockNo = localStorage.getItem('customClockNo');
         return savedCustomClockNo !== null ? Number(savedCustomClockNo) : 0; // Default to 0 if invalid
     });
-    const [secondHandColor, setSecondHandColor] = useState<string>("#000");
-    const [overrideColor, setOverrideColor] = useState<string>("#000");
+    const [secondHandColor, setSecondHandColor] = useState<string>("#000000");
+    const [overrideColor, setOverrideColor] = useState<string>("#000000");
     const [isInstallDialogOpen, setIsInstallDialogOpen] = useState<boolean>(false); // Dialog visibility state
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState<boolean>(false); // Dialog visibility state
     const [pendingUrl, setPendingUrl] = useState<string>(''); // URL pending confirmation
@@ -88,13 +88,13 @@ const ClockDetailPage = () => {
     const confirmInstallClockface = () => {
         setIsInstallDialogOpen(false); // Close confirmation dialog
         const author = clock.author && clock.author.length > 0 ? clock.author : clock.User.username;
-        // Open the URL in a new tab
-        window.open(
-            `http://${orbIP}/fetchFromClockRepo?`
+        const installUrl = `http://${orbIP}/fetchFromClockRepo?`
             + `url=${encodeURIComponent(pendingUrl)}&customClock=${pendingCustomClockNum}&`
             + `clockName=${clock.name}&authorName=${author}&`
-            + `secondHandColor=${secondHandColor}&overrideColor=${overrideColor}`,
-            '_blank');
+            + `secondHandColor=${encodeURIComponent(secondHandColor)}&overrideColor=${encodeURIComponent(overrideColor)}`
+        console.log(installUrl);
+        // Open the URL in a new tab
+        window.open(installUrl, '_blank');
         markDownload();
     };
 
