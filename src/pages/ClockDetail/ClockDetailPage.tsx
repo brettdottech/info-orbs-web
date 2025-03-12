@@ -63,7 +63,10 @@ const ClockDetailPage = () => {
 
     useEffect(() => {
         axios.get(`${config.backendURL}/clocks/${id}`)
-            .then(response => setClock(response.data))
+            .then(response => {
+                setClock(response.data);
+                setSecondHandColor(response.data.secondHandColor);
+            })
             .catch(error => console.error('Error fetching clock details:', error));
     }, [id]);
 
@@ -87,7 +90,10 @@ const ClockDetailPage = () => {
         const author = clock.author && clock.author.length > 0 ? clock.author : clock.User.username;
         // Open the URL in a new tab
         window.open(
-            `http://${orbIP}/fetchFromClockRepo?url=${encodeURIComponent(pendingUrl)}&customClock=${pendingCustomClockNum}&clockName=${clock.name}&authorName=${author}`,
+            `http://${orbIP}/fetchFromClockRepo?`
+            + `url=${encodeURIComponent(pendingUrl)}&customClock=${pendingCustomClockNum}&`
+            + `clockName=${clock.name}&authorName=${author}&`
+            + `secondHandColor=${secondHandColor}&overrideColor=${overrideColor}`,
             '_blank');
         markDownload();
     };

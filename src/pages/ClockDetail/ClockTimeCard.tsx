@@ -29,8 +29,10 @@ const ClockTimeCard = ({clock, secondHandColor, overrideColor}: ClockTimeCardPro
             }
         };
 
+        const now = new Date();
         // Set once immediately
-        setCurrentTime(formatTime(new Date()));
+        setCurrentTime(formatTime(now));
+        setSeconds(now.getSeconds());
 
         // Update every second
         const interval = setInterval(() => {
@@ -64,7 +66,7 @@ const ClockTimeCard = ({clock, secondHandColor, overrideColor}: ClockTimeCardPro
                 <div key={index}
                      className={hasColorOverride ? styles["clock-time-image-frame-override"] : styles["clock-time-image-frame"]}
                      style={hasColorOverride ? {'--override-color': overrideColor} as React.CSSProperties : undefined}>
-                    <div hidden={!hasSecondHandColor} className={styles['arc-rotate']} style={{
+                    <div hidden={index != 2 || !hasSecondHandColor} className={styles['arc-rotate']} style={{
                         transform: `translate(-50%, -50%) scale(101%) rotate(${(seconds / 60) * 360}deg`
                     }}>
                         <div className={styles['arc-rect']} style={{
