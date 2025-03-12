@@ -194,6 +194,7 @@ const ClockDetailPage = () => {
                         Install
                     </button>
                     <button id="show-advanced" hidden={showAdvanced}
+                            className={styles["advanced-button"]}
                             onClick={() => setShowAdvanced(true)}
                     >
                         Show Advanced

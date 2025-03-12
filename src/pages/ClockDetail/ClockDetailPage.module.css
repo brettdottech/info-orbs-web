@@ -111,3 +111,11 @@
 .install-button:hover {
     background-color: #3b7000;
 }
+
+.advanced-button {
+    background-color: #808080;
+}
+
+.advanced-button:hover {
+    background-color: #4c4c4c;
+}
