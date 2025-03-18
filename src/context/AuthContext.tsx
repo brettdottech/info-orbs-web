@@ -28,12 +28,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({children}
     const hasRole = (role: string) => {
         const decoded = decodeToken();
         console.log("roles", decoded?.roles);
-        return decoded?.roles.some(r => r.key === role) || false;
+        return decoded?.roles?.some(r => r.key === role) || false;
     }
 
     const hasPermission = (perm: string) => {
         const decoded = decodeToken();
-        return decoded?.permissions.includes(perm) || false;
+        return decoded?.permissions?.includes(perm) || false;
     }
 
     return (
