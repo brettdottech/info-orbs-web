@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
 import {Clock} from '../../types/Clock.ts';
-import styles from './HomePage.module.css';
 import ClockList from "./ClockList.tsx";
 import {useApi} from "../../hooks/useApi.ts";
 
@@ -47,11 +46,16 @@ const HomePage = () => {
         }
     });
 
+    if (clocks.length === 0) {
+        return <div>Loading...</div>;
+    }
+    
     return (
-        <div className={styles["home-page"]}>
-            <div className={styles["sort-container"]}>
-                <label htmlFor="sort">Sort By: </label>
-                <select id="sort" value={sortOption} onChange={handleSortChange}>
+        <div>
+            <div className="flex items-center gap-4 mt-4 max-w-full w-auto flex-wrap justify-end">
+                <label className="text-lg font-bold whitespace-nowrap" htmlFor="sort">Sort By: </label>
+                <select id="sort" value={sortOption} onChange={handleSortChange}
+                        className="p-1 text-sm border border-gray-300 rounded bg-gray-700 text-white">
                     <option value="Newest">Newest</option>
                     <option value="Likes">Likes</option>
                     <option value="Downloads">Downloads</option>

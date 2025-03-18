@@ -43,7 +43,7 @@ function App() {
         return <div className="flex items-center justify-center h-screen text-white text-xl">Loading...</div>;
     }
     return (
-        <div className="max-w-5xl mx-auto p-5 bg-gray-900 text-gray-100 rounded-lg shadow-lg">
+        <div className="max-w-6xl mx-auto p-5 bg-gray-900 text-gray-100 rounded-lg shadow-lg">
             {/* ToastContainer is placed globally, so it can show toasts from anywhere */}
             <ToastContainer
                 position="top-center" // Position of the Toast notifications
@@ -56,10 +56,10 @@ function App() {
             />
             <h1 className="text-3xl text-center font-bold mt-0 mb-3 text-white">Welcome to InfoOrbs</h1>
             <nav className="flex items-center gap-5 p-4 bg-gray-700 rounded-lg">
-                <Link className="main" to="/">Home</Link>
+                <Link className="main link" to="/">Home</Link>
                 <div className="flex gap-5">
                     {user && (
-                        <Link className="main" to="/add-clock">
+                        <Link className="main link" to="/add-clock">
                             Add Clock
                         </Link>
                     )}
@@ -108,6 +108,9 @@ function App() {
                 {user && <Route path="/add-clock" element={<AddClockPage/>}/>}
                 <Route path="/user" element={<UserAccountPage/>}/>
             </Routes>
+            <div className="flex justify-end gap-1 mt-4 p-2 bg-gray-700 rounded-lg">
+                Created by<Link className="link" target="_blank" to="https://brett.tech">brett.tech</Link>and friends
+            </div>
         </div>
     );
 }
