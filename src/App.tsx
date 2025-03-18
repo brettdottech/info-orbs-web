@@ -12,6 +12,7 @@ import AddClockPage from "./pages/AddClock/AddClockPage.tsx";
 import HomePage from "./pages/Home/HomePage.tsx";
 import NavigationLink from "./components/NavigationLink.tsx";
 import WebFlashPage from "./pages/WebFlash/WebFlashPage.tsx";
+import config from "./config.ts";
 
 function App() {
     const {register, login, logout, isAuthenticated, isLoading, user, getToken,} = useKindeAuth();
@@ -99,7 +100,7 @@ function App() {
                             </span>
                         </span>
                         <button
-                            onClick={() => logout("http://localhost:5173")}
+                            onClick={() => logout(config.frontendURL)}
                             className="red"
                         >
                             Logout
