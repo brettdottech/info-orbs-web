@@ -15,12 +15,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
 import {useKindeAuth} from "@kinde-oss/kinde-auth-react";
 import {useApi} from "../../hooks/useApi.ts";
+import {useToken} from "../../context/AuthContext.tsx";
 
 
 const ClockDetailPage = () => {
     const api = useApi();
     // Get logged in user
     const {user} = useKindeAuth();
+    const {hasRole} = useToken();
     const {id} = useParams();
     const [clock, setClock] = useState<Clock | null>(null);
     const [orbIP, setOrbIP] = useState<string>(''); // State for the orb IP input
@@ -61,7 +63,9 @@ const ClockDetailPage = () => {
             .catch(error => console.error('Error fetching clock details:', error));
     }, [api, id]);
 
-    if (!clock) return <div>Loading...</div>;
+    if (!clock) {
+        return <div className="flex items-center justify-center min-h-60 text-white text-xl">Loading...</div>;
+    }
 
     const handleInstallClockface = (url: string, customClockNum: number) => {
         // Validate the orb IP value
@@ -120,7 +124,8 @@ const ClockDetailPage = () => {
     };
 
     const url = `${config.backendURL}/images/${clock.id}`;
-    const canEdit = user; // && (user.isAdmin || user.id == clock.userId);
+    const canEdit = user && (hasRole("admin") || user.id == clock.userId);
+
 
     return (
         <div>

@@ -190,7 +190,6 @@ const AddClockPage = () => {
 
     return (
         <div className="add-clock-page">
-            <div className="text-xl font-bold mt-2">Add New Clock</div>
             <form onSubmit={handleSubmit}>
                 <Card>
                     <div className={styles['flex-container']}>

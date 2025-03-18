@@ -1,5 +1,5 @@
 import {Link, Route, Routes} from "react-router-dom";
-import HomePage from "./pages/Home/HomePage.tsx";
+import BrowseClocksPage from "./pages/BrowseClocks/BrowseClocksPage.tsx";
 import ClockDetailPage from "./pages/ClockDetail/ClockDetailPage.tsx";
 import UserAccountPage from "./pages/UserAccount/UserAccountPage.tsx";
 import {ToastContainer} from 'react-toastify';
@@ -9,6 +9,9 @@ import {useEffect, useState} from "react";
 import {jwtDecode} from "jwt-decode";
 import {useToken} from "./context/AuthContext.tsx";
 import AddClockPage from "./pages/AddClock/AddClockPage.tsx";
+import HomePage from "./pages/Home/HomePage.tsx";
+import NavigationLink from "./components/NavigationLink.tsx";
+import WebFlashPage from "./pages/WebFlash/WebFlashPage.tsx";
 
 function App() {
     const {register, login, logout, isAuthenticated, isLoading, user, getToken,} = useKindeAuth();
@@ -54,14 +57,16 @@ function App() {
                 pauseOnHover
                 draggable
             />
-            <h1 className="text-3xl text-center font-bold mt-0 mb-3 text-white">Welcome to InfoOrbs</h1>
+            {/*<h1 className="text-center">Welcome to InfoOrbs</h1>*/}
             <nav className="flex items-center gap-5 p-4 bg-gray-700 rounded-lg">
-                <Link className="main link" to="/">Home</Link>
+                <NavigationLink to="/">Home</NavigationLink>
+                <NavigationLink to="/flash">WebFlasher</NavigationLink>
+                <NavigationLink to="/clocks">Browse Clocks</NavigationLink>
                 <div className="flex gap-5">
                     {user && (
-                        <Link className="main link" to="/add-clock">
+                        <NavigationLink to="/add-clock">
                             Add Clock
-                        </Link>
+                        </NavigationLink>
                     )}
                 </div>
                 {!user && (
@@ -104,9 +109,11 @@ function App() {
             </nav>
             <Routes>
                 <Route path="/" element={<HomePage/>}/>
+                <Route path="/clocks" element={<BrowseClocksPage/>}/>
                 <Route path="/clock/:id" element={<ClockDetailPage/>}/>
                 {user && <Route path="/add-clock" element={<AddClockPage/>}/>}
                 <Route path="/user" element={<UserAccountPage/>}/>
+                <Route path="/flash" element={<WebFlashPage/>}/>
             </Routes>
             <div className="flex justify-end gap-1 mt-4 p-2 bg-gray-700 rounded-lg">
                 Created by<Link className="link" target="_blank" to="https://brett.tech">brett.tech</Link>and friends

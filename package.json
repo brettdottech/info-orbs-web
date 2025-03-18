@@ -17,6 +17,7 @@
     "@kinde-oss/kinde-auth-react": "^5.0.3",
     "@tailwindcss/vite": "^4.0.14",
     "axios": "^1.8.1",
+    "esp-web-tools": "^10.1.0",
     "jpeg-js": "^0.4.4",
     "jwt-decode": "^4.0.0",
     "react": "^19.0.0",

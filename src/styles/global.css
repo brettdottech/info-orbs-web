@@ -13,7 +13,11 @@ a.main {
 }
 
 a.link {
-    @apply text-blue-300 hover:text-white transition;
+    @apply text-blue-200 hover:text-white transition;
+}
+
+a.active-link {
+    @apply text-blue-500;
 }
 
 button.green {
@@ -30,4 +34,12 @@ button.grey {
 
 .card {
     @apply my-5 px-4 py-2 bg-gray-800 rounded-lg text-lg shadow-lg transition-transform duration-200 ease-in-out;
+}
+
+h1 {
+    @apply text-3xl font-bold mt-0 mb-3 text-white;
+}
+
+h2 {
+    @apply text-2xl font-bold mt-1 mb-2;
 }
