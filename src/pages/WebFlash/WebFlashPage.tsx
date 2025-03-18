@@ -17,10 +17,10 @@ const WebFlashPage = () => {
             </div>
             <EspWebInstallButton manifest="/webflash/manifest.json"
                                  buttonText="Flash InfoOrbs DEV (Default)"/>
-            <EspWebInstallButton manifest="/webflash/manifest.json"
+            <EspWebInstallButton manifest="/webflash/manifest-nofs.json"
                                  buttonText="Flash InfoOrbs DEV (Keep Filesystem/CustomClocks)"/>
-            <EspWebInstallButton manifest="/webflash/manifest.json"
-                                 buttonText="Flash InfoOrbs DEV (all Widgets)"/>
+            {/*<EspWebInstallButton manifest="/webflash/manifest.json"*/}
+            {/*                     buttonText="Flash InfoOrbs DEV (all Widgets)"/>*/}
         </div>
     );
 };
