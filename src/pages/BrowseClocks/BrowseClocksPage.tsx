@@ -2,11 +2,17 @@ import {useEffect, useState} from 'react';
 import {Clock} from '../../types/Clock.ts';
 import ClockList from "./ClockList.tsx";
 import {useApi} from "../../hooks/useApi.ts";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faAdd} from "@fortawesome/free-solid-svg-icons";
+import Tooltip from "../../components/Tooltip.tsx";
+import {Link} from "react-router-dom";
+import {useKindeAuth} from "@kinde-oss/kinde-auth-react";
 
 const BrowseClocksPage = () => {
     const [clocks, setClocks] = useState<Clock[]>([]);
     const [sortOption, setSortOption] = useState<string>('Downloads');
     const api = useApi();
+    const {isAuthenticated} = useKindeAuth();
 
     useEffect(() => {
         console.log('Fetching clocks...');
@@ -64,6 +70,17 @@ const BrowseClocksPage = () => {
                 </select>
             </div>
             <ClockList clocks={sortedClocks}/>
+            {isAuthenticated && (
+                <div className="flex items-center max-w-full w-auto flex-wrap justify-end m-0 p-0">
+                    <Tooltip text="Add Clock">
+                        <Link to="/add-clock"
+                              className="bg-blue-600 hover:bg-blue-800 text-white font-bold text-4xl w-14 h-14 p-0 m-0 flex items-center justify-center rounded-full shadow-lg">
+                            <FontAwesomeIcon icon={faAdd}/>
+                        </Link>
+                    </Tooltip>
+                </div>
+
+            )}
         </div>
     );
 };
