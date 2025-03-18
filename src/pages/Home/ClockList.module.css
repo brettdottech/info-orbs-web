@@ -1,12 +1,11 @@
+@import "tailwindcss";
+
 .clock-list {
-    display: block;
+    @apply block;
 }
 
-@media only screen and (max-width: 480px) {
+@media (max-width: 480px) {
     .clock-list {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        width: auto;
+        @apply flex flex-wrap justify-around w-auto;
     }
 }

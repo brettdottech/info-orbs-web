@@ -1,109 +1,17 @@
-/* Outer container holding all elements in one row */
+@import "tailwindcss";
+
 .flex-container {
-    display: flex;
-    align-items: center;
-    gap: 16px; /* Space between groups */
-    margin-bottom: 16px; /* Space below */
-    margin-top: 8px;
-    max-width: 100%;
-    width: auto;
-    flex-wrap: wrap;
-    overflow: hidden;
+    @apply flex items-center gap-4 max-w-full w-auto flex-wrap overflow-hidden;
 }
 
-/* Group container for label and input (pairing them horizontally) */
 .input-group {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-grow: 1;
+    @apply flex items-center gap-3 flex-grow mt-2 mb-2;
 }
 
-/* Label styling */
 .input-group label {
-    font-size: 16px;
-    font-weight: bold;
-    /*white-space: nowrap; !* Prevent labels from wrapping *!*/
+    @apply text-lg font-bold;
 }
 
-/* Orb IP input styling */
 .input-group input {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    flex: 1; /* Take up available space */
-}
-
-/* Orb IP input styling */
-.input-group .secondHandColor {
-    padding: 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    min-height: 2em;
-    min-width: 5em;
-    flex: 0;
-}
-
-/* Orb IP input styling */
-.input-group textarea {
-    padding: 8px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    flex: 1; /* Take up available space */
-    width: 100%;
-}
-
-.dropzone {
-    border: 2px dashed #ccc;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    margin-bottom: 10px;
-}
-
-.dropzone-active {
-    border: 2px dashed #0078d4;
-}
-
-.thumbnailsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.thumbnail {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 100px;
-}
-
-.thumbnailImage {
-    max-width: 100%;
-    max-height: 100px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.flex-container-right {
-    display: flex;
-    align-items: center;
-    max-width: 100%;
-    width: auto;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 16px; /* Space between groups */
-}
-
-.drag-and-drop {
-
-}
-
-/* Label styling */
-.drag-and-drop label {
-    font-size: 16px;
-    font-weight: bold;
+    @apply px-2 py-1 text-lg border border-gray-300 rounded flex-grow;
 }

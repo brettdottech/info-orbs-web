@@ -15,6 +15,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@kinde-oss/kinde-auth-react": "^5.0.3",
+    "@tailwindcss/vite": "^4.0.14",
     "axios": "^1.8.1",
     "jpeg-js": "^0.4.4",
     "jwt-decode": "^4.0.0",
@@ -22,7 +23,8 @@
     "react-dom": "^19.0.0",
     "react-dropzone": "^14.3.8",
     "react-router-dom": "^7.2.0",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "tailwindcss": "^4.0.14"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",

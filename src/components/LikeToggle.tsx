@@ -3,7 +3,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faHeart as faSolidHeart} from '@fortawesome/free-solid-svg-icons';
 import {faHeart as faRegularHeart} from '@fortawesome/free-regular-svg-icons';
 import {toast} from "react-toastify";
-import styles from './LikeToggle.module.css';
 import {useKindeAuth} from "@kinde-oss/kinde-auth-react";
 import {useApi} from "../hooks/useApi.ts";
 
@@ -63,11 +62,11 @@ const LikeToggle: React.FC<LikeToggleProps> = ({
     return (
         <div
             onClick={handleToggleLike}
-            className={`${styles['like-toggle']} ${(likeUpdating || !user) ? styles['like-toggle-disabled'] : ''}`}
+            className={`cursor-pointer flex items-center mx-2 ${(likeUpdating || !user) ? "cursor-not-allowed" : ''}`}
         >
             <FontAwesomeIcon
                 icon={isLiked ? faSolidHeart : faRegularHeart} // Toggle icon
-                className={isLiked ? styles['icon-liked'] : styles['icon-unliked']}
+                className={isLiked ? "mr-2 text-red-500" : "mr-2 text-gray-300"}
             />
             {likes}{long ? " like" + (likes != 1 ? "s" : "") : ""}
         </div>

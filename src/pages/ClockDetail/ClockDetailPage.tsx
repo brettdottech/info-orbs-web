@@ -123,14 +123,14 @@ const ClockDetailPage = () => {
     const canEdit = user; // && (user.isAdmin || user.id == clock.userId);
 
     return (
-        <div className={styles["clock-detail-page"]}>
+        <div>
             <Card>
-                <div className={styles["clock-stats"]}>
+                <div className="float-right items-end;">
                     <LikeToggle id={clock.id.toString()} initialLikes={clock.likes} initialLiked={clock.userLiked}
                                 long={true}/>
                     <DownloadsCounter downloads={clock.downloads} long={true}/>
                 </div>
-                <h2>{clock.name}</h2>
+                <div className="text-xl font-bold">{clock.name}</div>
                 <div>by {clock.author && clock.author.length > 0 ? clock.author : null}</div>
                 {/*{clock.author && clock.author.length > 0 && (<div>Uploaded by {clock.User.username}</div>)}*/}
                 {clock.url && clock.url.length > 0 && (<div><a href={clock.url} target="_blank">{clock.url}</a></div>)}
@@ -142,8 +142,8 @@ const ClockDetailPage = () => {
             <AllClockImagesCard clock={clock}/>
 
             <Card>
-                <h4>Install this Clockface</h4>
-                <div className={styles["flex-container"]}>
+                <div className="text-xl font-bold">Install this Clockface</div>
+                <div className="flex items-center gap-4 mb-4 mt-2 max-w-full w-auto flex-wrap">
                     {/* Orb IP Label + Input */}
                     <div className={styles["input-group"]}>
                         <label htmlFor="orb-ip">InfoOrbs IP:</label>
@@ -153,7 +153,7 @@ const ClockDetailPage = () => {
                             value={orbIP}
                             onChange={(e) => setOrbIP(e.target.value)}
                             placeholder="192.168.x.x"
-                            className={styles["orb-ip-input"]}
+                            className="p-1 text-lg border border-gray-300 rounded flex-1"
                         />
                     </div>
                     {/* Custom Clock Number Label + Input */}
@@ -170,7 +170,7 @@ const ClockDetailPage = () => {
                                     max="9"
                                     onChange={(e) => setCustomClockNo(Number(e.target.value))}
                                     placeholder="0-9"
-                                    className={styles["custom-clock-number-input"]}
+                                    className="w-15 p-1 text-lg border border-gray-300 rounded"
                                 />
                             </div>
                             <div className={styles["input-group"]}>
@@ -189,23 +189,23 @@ const ClockDetailPage = () => {
                         </>
                     )}
                     <button id="install-clockface"
-                            className={styles["install-button"]}
+                            className="green"
                             onClick={() => handleInstallClockface(url, customClockNo)}
                     >
                         Install
                     </button>
                     <button id="show-advanced" hidden={showAdvanced}
-                            className={styles["advanced-button"]}
+                            className="grey"
                             onClick={() => setShowAdvanced(true)}
                     >
                         Show Advanced
                     </button>
                 </div>
-                <div className={styles["install-info"]}>
-                    <h4 onClick={() => setShowInfo(!showInfo)}>
+                <div className="text-sm">
+                    <div onClick={() => setShowInfo(!showInfo)} className="font-bold">
                         How it works <FontAwesomeIcon icon={faInfoCircle}/>
-                    </h4>
-                    <div hidden={!showInfo}>
+                    </div>
+                    <div hidden={!showInfo} className="mt-1">
                         <div>When you press "Install", we open a new tab that connects to your Orbs and
                             tries to install the clockface.
                         </div>
@@ -220,7 +220,7 @@ const ClockDetailPage = () => {
                 </div>
             </Card>
             {canEdit && (
-                <div className={styles["flex-container-right"]}>
+                <div className="flex items-center max-w-full w-auto flex-wrap justify-end gap-4">
                     {/*{!editMode ? (*/}
                     {/*    <button className={styles["edit-button"]}*/}
                     {/*            onClick={() => setEditMode(true)}>*/}
@@ -232,17 +232,12 @@ const ClockDetailPage = () => {
                     {/*        Update Clock*/}
                     {/*    </button>*/}
                     {/*)}*/}
-                    <button className={styles["delete-button"]}
+                    <button className="red"
                             onClick={() => handleDeleteClockface()}>
                         Delete Clock
                     </button>
                 </div>
             )}
-            {/*<ProgressSpinner*/}
-            {/*    show={loading}*/}
-            {/*    title="Uploading Clockface to InfoOrbs"*/}
-            {/*    message="This might take 1-2 minutes..."*/}
-            {/*/>*/}
             <ConfirmationDialog
                 show={isInstallDialogOpen}
                 title="Install Clockface"

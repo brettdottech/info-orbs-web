@@ -1,5 +1,3 @@
-import styles from './Card.module.css';
-
 type CardProps = {
     children: React.ReactNode;
     className?: string;
@@ -7,7 +5,7 @@ type CardProps = {
 
 const Card = ({children, className}: CardProps) => {
     return (
-        <div className={`${styles['card']} ${className ? className : ''}`}>
+        <div className={`card ${className ? className : ''}`}>
             {children}
         </div>
     );

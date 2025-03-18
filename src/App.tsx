@@ -40,10 +40,10 @@ function App() {
     }, [isAuthenticated, isLoading]);
 
     if (!tokenLoaded) {
-        return <div>Loading...</div>;
+        return <div className="flex items-center justify-center h-screen text-white text-xl">Loading...</div>;
     }
     return (
-        <div className="app-container">
+        <div className="max-w-5xl mx-auto p-5 bg-gray-900 text-gray-100 rounded-lg shadow-lg">
             {/* ToastContainer is placed globally, so it can show toasts from anywhere */}
             <ToastContainer
                 position="top-center" // Position of the Toast notifications
@@ -54,29 +54,51 @@ function App() {
                 pauseOnHover
                 draggable
             />
-            <h1>Welcome to InfoOrbs</h1>
-            <nav className="app-nav">
-                <Link to="/">Home</Link>
-                <div className="nav-links">
+            <h1 className="text-3xl text-center font-bold mt-0 mb-3 text-white">Welcome to InfoOrbs</h1>
+            <nav className="flex items-center gap-5 p-4 bg-gray-700 rounded-lg">
+                <Link className="main" to="/">Home</Link>
+                <div className="flex gap-5">
                     {user && (
-                        <>
-                            <Link to="/add-clock">Add Clock</Link>
-                        </>
+                        <Link className="main" to="/add-clock">
+                            Add Clock
+                        </Link>
                     )}
                 </div>
                 {!user && (
-                    <div className="nav-user">
-                        <>
-                            <button onClick={() => login()} type="button">Log In</button>
-                            <button onClick={() => register()} type="button">Register</button>
-                        </>
+                    <div className="ml-auto flex gap-5">
+                        <button
+                            onClick={() => login()}
+                            type="button"
+                        >
+                            Log In
+                        </button>
+                        <button
+                            onClick={() => register()}
+                            type="button"
+                            className="green"
+                        >
+                            Register
+                        </button>
                     </div>
                 )}
                 {user && (
-                    <div className="nav-user">
-                        <span>Logged in as <span
-                            style={{color: hasRole("admin") ? "red" : "white"}}>{user.givenName}</span></span>
-                        <button onClick={() => logout("http://localhost:5173")}>Logout</button>
+                    <div className="ml-auto flex items-center gap-3">
+                        <span>
+                            Logged in as{" "}
+                            <span
+                                className={`font-bold ${
+                                    hasRole("admin") ? "text-red-500" : "text-white"
+                                }`}
+                            >
+                                {user.givenName}
+                            </span>
+                        </span>
+                        <button
+                            onClick={() => logout("http://localhost:5173")}
+                            className="red"
+                        >
+                            Logout
+                        </button>
                     </div>
                 )}
             </nav>

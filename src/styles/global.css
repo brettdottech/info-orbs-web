@@ -1,144 +1,29 @@
+@import "tailwindcss";
+
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #121212;
-    color: #e0e0e0; /* Slightly grayish white for softer text */
-    line-height: 1.6;
-}
-
-h1 {
-    text-align: center;
-    color: #ffffff;
-    margin-top: 10px;
-    font-size: 2.5rem; /* Larger and more impactful h1 */
-    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.2); /* Glow effect for headers */
-}
-
-h2 {
-    margin-top: 10px;
-    margin-bottom: 0;
-}
-
-h3 {
-    margin-top: 6px;
-    margin-bottom: 0;
-}
-
-h4 {
-    margin-top: 3px;
-    margin-bottom: 0;
-}
-
-.app-container {
-    max-width: 1200px;
-    margin: 20px auto; /* Adds some space between page edges */
-    padding: 20px;
-    background-color: #1e1e1e; /* Slightly lighter for content sections */
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Add a subtle depth effect */
+    @apply font-sans m-0 p-0 bg-gray-950 text-gray-300 leading-relaxed;
 }
 
 button {
-    padding: 8px 16px;
-    background-color: #0078d4; /* Slightly darker blue for better balance */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Adds smooth transitions */
+    @apply bg-blue-600 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition transform hover:scale-105;
 }
 
-button:hover {
-    background-color: #005ea6; /* Darker blue for hover */
-    transform: translateY(-1px) scale(1.05); /* Slight hover lift and zoom */
+a.main {
+    @apply text-cyan-400 hover:text-white font-bold transition;
 }
 
-button:disabled {
-    background-color: #999;
+button.green {
+    @apply bg-green-700 hover:bg-green-800;
 }
 
-button:hover:disabled {
-    background-color: #999;
-    cursor: not-allowed;
+button.red {
+    @apply bg-red-700 hover:bg-red-800;
 }
 
-a {
-    text-decoration: none;
-    color: #62dafb; /* Light blue for hyperlinks */
-    font-weight: bold;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
+button.grey {
+    @apply bg-gray-600 hover:bg-gray-800;
 }
 
-a:hover {
-    color: #ffffff; /* Brighter link color on hover */
-    /*text-shadow: 0 0 8px rgba(255, 255, 255, 0.9); !* Glow effect for hover *!*/
-}
-
-a:active {
-    color: #ffa726; /* Warm orange tone for active links */
-}
-
-a:visited {
-    color: #a29bfe; /* Muted lavender for visited links */
-}
-
-.nav-links {
-    display: flex;
-    gap: 20px; /* More spacing between links */
-}
-
-.nav-links a {
-    font-size: 1rem;
-    text-decoration: none;
-    color: #76c7ff; /* Softer cyan for better contrast on dark backgrounds */
-    font-weight: bold;
-    transition: color 0.3s ease, border-bottom 0.3s ease; /* Add hover transition */
-    border-bottom: 2px solid transparent; /* Add underline animation effect */
-}
-
-.nav-links a:hover {
-    color: #e3e3e3; /* Slightly lighter on hover */
-    border-bottom: 2px solid #62dafb; /* Underline effect on hover */
-}
-
-.nav-user {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-left: auto;
-}
-
-.nav-user span {
-    font-weight: normal;
-    color: #b3b3b3; /* More muted gray for user info */
-    font-size: 1rem;
-    padding: 0 10px;
-}
-
-.app-nav {
-    margin: 0;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #1e1e2f; /* Dark background */
-    border-top: 1px solid #333; /* Subtle border to differentiate */
-    border-bottom: 1px solid #333;
-    color: #fff; /* Light text color */
-    gap: 20px;
-}
-
-.icon-spacing {
-    margin: 0 8px;
-}
-
-.red {
-    color: red;
-}
-
-.curser-pointer {
-    cursor: pointer;
+.card {
+    @apply my-5 px-4 py-2 bg-gray-800 rounded-lg text-lg shadow-lg transition-transform duration-200 ease-in-out;
 }

@@ -190,7 +190,7 @@ const AddClockPage = () => {
 
     return (
         <div className="add-clock-page">
-            <h2>Add New Clock</h2>
+            <div className="text-xl font-bold mt-2">Add New Clock</div>
             <form onSubmit={handleSubmit}>
                 <Card>
                     <div className={styles['flex-container']}>
@@ -234,41 +234,45 @@ const AddClockPage = () => {
                                 placeholder="Optional"
                                 value={form.description}
                                 onChange={handleInputChange}
+                                className="px-2 py-1 text-lg border border-gray-300 rounded flex-1 w-full"
                             />
                         </div>
                     </div>
                     <div className={styles["input-group"]}>
-                        <label htmlFor="secondHandColor">Recommended seconds color:</label>
-                        <input id="secondHandColor" className={styles['secondHandColor']} type="color"
+                        <label htmlFor="secondHandColor">Recommended seconds color</label>
+                        <input id="secondHandColor"
+                               className="!p-0 !border-0 min-h-10 min-w-20 !flex-none"
+                               type="color"
                                value={form.secondHandColor}
                                onChange={handleInputChange}/>
                     </div>
                 </Card>
                 <Card>
-                    <div className={styles['drag-and-drop']}>
-                        <label hidden={!showDragAndDrop}>Upload Required Images (0.jpg to 11.jpg, 10.jpg=no colon image,
-                            11.jpg=colon image)</label>
+                    <div>
+                        <label hidden={!showDragAndDrop}>
+                            <div className="text-lg font-bold">Upload Required Images</div>
+                            <div>0.jpg to 11.jpg, 10.jpg=no colon image, 11.jpg=colon image</div>
+                        </label>
                         <div
                             {...getRootProps()}
-                            className={styles['dropzone']}
-                            style={isDragActive ? {borderColor: "#0078d4"} : {}} // blue if active
+                            className={"border-2 m-3 border-dashed border-gray-300 p-5 text-center cursor-pointer mb-2.5" + (isDragActive ? " border-blue-600" : "")}
                             hidden={!showDragAndDrop}
                         >
                             <input {...getInputProps()} />
                             {isDragActive ? (
-                                <p style={{color: "#0078d4"}}>Drop the images here...</p>
+                                <p className="text-blue-600">Drop the images here...</p>
                             ) : (
                                 <p>Drag and drop JPG files here, or click to select them</p>
                             )}
                         </div>
-                        <div className={styles.thumbnailsContainer}>
+                        <div className="flex flex-wrap gap-4 mt-4">
                             {files.map((filePreview, index) => (
-                                <div key={filePreview.file.name} className={styles.thumbnail}
+                                <div key={filePreview.file.name} className="flex flex-col items-center max-w-[100px]"
                                      onClick={() => removeItem(index)}>
                                     <img
                                         src={filePreview.preview}
                                         alt={filePreview.file.name}
-                                        className={styles.thumbnailImage}
+                                        className="max-w-full max-h-[100px] border border-gray-300 rounded"
                                     />
 
                                     <div>{filePreview.file.name}</div>
@@ -281,7 +285,7 @@ const AddClockPage = () => {
                 {error && <Card>
                     <div style={{color: 'red', marginTop: '10px'}} onClick={() => setError(null)}>{error}</div>
                 </Card>}
-                <div className={styles['flex-container-right']}>
+                <div className="flex items-center max-w-full w-auto flex-wrap justify-end gap-4">
                     <button type="submit">Add Clock</button>
                 </div>
             </form>
