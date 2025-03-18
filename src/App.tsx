@@ -10,13 +10,12 @@ import {jwtDecode} from "jwt-decode";
 import {useToken} from "./context/AuthContext.tsx";
 import AddClockPage from "./pages/AddClock/AddClockPage.tsx";
 import HomePage from "./pages/Home/HomePage.tsx";
-import NavigationLink from "./components/NavigationLink.tsx";
 import WebFlashPage from "./pages/WebFlash/WebFlashPage.tsx";
-import config from "./config.ts";
+import NavigationBar from "./components/NavigationBar.tsx";
 
 function App() {
-    const {register, login, logout, isAuthenticated, isLoading, user, getToken,} = useKindeAuth();
-    const {setToken, hasRole} = useToken();
+    const {isAuthenticated, isLoading, user, getToken,} = useKindeAuth();
+    const {setToken} = useToken();
     const [tokenLoaded, setTokenLoaded] = useState<boolean>(false);
 
     useEffect(() => {
@@ -58,56 +57,7 @@ function App() {
                 pauseOnHover
                 draggable
             />
-            {/*<h1 className="text-center">Welcome to InfoOrbs</h1>*/}
-            <nav className="flex items-center gap-5 p-4 bg-gray-700 rounded-lg">
-                <NavigationLink to="/">Home</NavigationLink>
-                <NavigationLink to="/flash">WebFlasher</NavigationLink>
-                <NavigationLink to="/clocks">Browse Clocks</NavigationLink>
-                <div className="flex gap-5">
-                    {user && (
-                        <NavigationLink to="/add-clock">
-                            Add Clock
-                        </NavigationLink>
-                    )}
-                </div>
-                {!user && (
-                    <div className="ml-auto flex gap-5">
-                        <button
-                            onClick={() => login()}
-                            type="button"
-                        >
-                            Log In
-                        </button>
-                        <button
-                            onClick={() => register()}
-                            type="button"
-                            className="green"
-                        >
-                            Register
-                        </button>
-                    </div>
-                )}
-                {user && (
-                    <div className="ml-auto flex items-center gap-3">
-                        <span>
-                            Logged in as{" "}
-                            <span
-                                className={`font-bold ${
-                                    hasRole("admin") ? "text-red-500" : "text-white"
-                                }`}
-                            >
-                                {user.givenName}
-                            </span>
-                        </span>
-                        <button
-                            onClick={() => logout(config.frontendURL)}
-                            className="red"
-                        >
-                            Logout
-                        </button>
-                    </div>
-                )}
-            </nav>
+            <NavigationBar/>
             <Routes>
                 <Route path="/" element={<HomePage/>}/>
                 <Route path="/clocks" element={<BrowseClocksPage/>}/>
