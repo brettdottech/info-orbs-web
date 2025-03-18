@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './ConfirmationDialog.module.css';
 
 interface ConfirmationDialogProps {
@@ -9,13 +8,13 @@ interface ConfirmationDialogProps {
     onCancel: () => void; // Called when "Cancel" button is clicked
 }
 
-const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
-                                                                   show,
-                                                                   title = 'Confirmation',
-                                                                   message,
-                                                                   onConfirm,
-                                                                   onCancel
-                                                               }) => {
+const ConfirmationDialog = ({
+                                show,
+                                title = 'Confirmation',
+                                message,
+                                onConfirm,
+                                onCancel
+                            }: ConfirmationDialogProps) => {
     if (!show) return null; // Don't render if not visible
 
     return (

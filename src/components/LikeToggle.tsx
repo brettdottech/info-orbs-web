@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faHeart as faSolidHeart} from '@fortawesome/free-solid-svg-icons';
 import {faHeart as faRegularHeart} from '@fortawesome/free-regular-svg-icons';
@@ -13,9 +13,7 @@ interface LikeToggleProps {
     long: boolean
 }
 
-const LikeToggle: React.FC<LikeToggleProps> = ({
-                                                   id, initialLikes, initialLiked, long
-                                               }) => {
+const LikeToggle = ({id, initialLikes, initialLiked, long}: LikeToggleProps) => {
     // Get logged in user
     const {user} = useKindeAuth();
     const [isLiked, setLiked] = useState<boolean>(initialLiked); // State for like/unlike

@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './ProgressSpinner.module.css';
 
 interface ProgressSpinnerProps {
@@ -7,11 +6,11 @@ interface ProgressSpinnerProps {
     message: string;
 }
 
-const ProgressSpinner: React.FC<ProgressSpinnerProps> = ({
-                                                             show,
-                                                             title = 'Please wait',
-                                                             message,
-                                                         }) => {
+const ProgressSpinner = ({
+                             show,
+                             title = 'Please wait',
+                             message,
+                         }: ProgressSpinnerProps) => {
     if (!show) return null; // Don't render if not visible
 
     return (

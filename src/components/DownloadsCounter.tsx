@@ -1,4 +1,3 @@
-import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faDownload} from '@fortawesome/free-solid-svg-icons';
 
@@ -7,9 +6,9 @@ interface DownloadsCounterProps {
     long: boolean
 }
 
-const DownloadsCounter: React.FC<DownloadsCounterProps> = ({
-                                                               downloads, long
-                                                           }) => {
+const DownloadsCounter = ({
+                              downloads, long
+                          }: DownloadsCounterProps) => {
     return (
         <div className="flex items-center mx-2">
             <FontAwesomeIcon
