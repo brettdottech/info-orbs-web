@@ -11,16 +11,7 @@ import {useToken} from "./context/AuthContext.tsx";
 import AddClockPage from "./pages/AddClock/AddClockPage.tsx";
 
 function App() {
-    // const {user, logout} = useContext(AuthContext)!;
-    const {
-        register,
-        login,
-        logout,
-        isAuthenticated,
-        isLoading,
-        user,
-        getToken,
-    } = useKindeAuth();
+    const {register, login, logout, isAuthenticated, isLoading, user, getToken,} = useKindeAuth();
     const {setToken, hasRole} = useToken();
     const [tokenLoaded, setTokenLoaded] = useState<boolean>(false);
 
@@ -30,7 +21,6 @@ function App() {
                 console.log("isLoading");
                 return;
             }
-            // console.log("fetchToken", user)
             console.log("fetchToken", isAuthenticated)
             if (isAuthenticated) {
                 const t = await getToken();
@@ -64,9 +54,8 @@ function App() {
                 pauseOnHover
                 draggable
             />
-            {/*<h1>InfoOrbs Clock Repo</h1>*/}
+            <h1>Welcome to InfoOrbs</h1>
             <nav className="app-nav">
-                {/*<div>InfoOrbs Clock Repo</div>*/}
                 <Link to="/">Home</Link>
                 <div className="nav-links">
                     {user && (
