@@ -1,18 +1,57 @@
 import {Link, Route, Routes} from "react-router-dom";
-import {useContext} from "react";
-import {AuthContext} from "./context/AuthContext";
 import HomePage from "./pages/Home/HomePage.tsx";
 import ClockDetailPage from "./pages/ClockDetail/ClockDetailPage.tsx";
-import AddClockPage from "./pages/AddClock/AddClockPage.tsx";
 import UserAccountPage from "./pages/UserAccount/UserAccountPage.tsx";
-import LoginPage from "./pages/Login/LoginPage.tsx";
-import RegisterPage from "./pages/Register/RegisterPage.tsx";
-import {ToastContainer} from 'react-toastify'; // Import ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useKindeAuth} from "@kinde-oss/kinde-auth-react";
+import {useEffect, useState} from "react";
+import {jwtDecode} from "jwt-decode";
+import {useToken} from "./context/AuthContext.tsx";
+import AddClockPage from "./pages/AddClock/AddClockPage.tsx";
 
 function App() {
-    const {user, logout} = useContext(AuthContext)!;
+    // const {user, logout} = useContext(AuthContext)!;
+    const {
+        register,
+        login,
+        logout,
+        isAuthenticated,
+        isLoading,
+        user,
+        getToken,
+    } = useKindeAuth();
+    const {setToken, hasRole} = useToken();
+    const [tokenLoaded, setTokenLoaded] = useState<boolean>(false);
 
+    useEffect(() => {
+        const fetchToken = async () => {
+            if (isLoading) {
+                console.log("isLoading");
+                return;
+            }
+            // console.log("fetchToken", user)
+            console.log("fetchToken", isAuthenticated)
+            if (isAuthenticated) {
+                const t = await getToken();
+                if (t) {
+                    setToken(t);
+                    const dec = jwtDecode(t);
+                    console.log("dec", dec);
+                } else {
+                    setToken(null);
+                }
+            } else {
+                setToken(null);
+            }
+            setTokenLoaded(true);
+        };
+        fetchToken();
+    }, [isAuthenticated, isLoading]);
+
+    if (!tokenLoaded) {
+        return <div>Loading...</div>;
+    }
     return (
         <div className="app-container">
             {/* ToastContainer is placed globally, so it can show toasts from anywhere */}
@@ -39,15 +78,16 @@ function App() {
                 {!user && (
                     <div className="nav-user">
                         <>
-                            <Link to="/login">Login</Link>
-                            {/*<Link to="/register">Register</Link>*/}
+                            <button onClick={() => login()} type="button">Log In</button>
+                            <button onClick={() => register()} type="button">Register</button>
                         </>
                     </div>
                 )}
                 {user && (
                     <div className="nav-user">
-                        <span>Logged in as <span style={{color: user.isAdmin ? "red" : "white"}}>{user.username}</span></span>
-                        <button onClick={logout}>Logout</button>
+                        <span>Logged in as <span
+                            style={{color: hasRole("admin") ? "red" : "white"}}>{user.givenName}</span></span>
+                        <button onClick={() => logout("http://localhost:5173")}>Logout</button>
                     </div>
                 )}
             </nav>
@@ -56,8 +96,6 @@ function App() {
                 <Route path="/clock/:id" element={<ClockDetailPage/>}/>
                 {user && <Route path="/add-clock" element={<AddClockPage/>}/>}
                 <Route path="/user" element={<UserAccountPage/>}/>
-                <Route path="/login" element={<LoginPage/>}/>
-                <Route path="/register" element={<RegisterPage/>}/>
             </Routes>
         </div>
     );

@@ -1,19 +1,24 @@
 import {useEffect, useState} from 'react';
-import axios from 'axios';
 import {Clock} from '../../types/Clock.ts';
-import styles from './HomePage.module.css'; // Import the new CSS file
-import config from "../../config.ts";
+import styles from './HomePage.module.css';
 import ClockList from "./ClockList.tsx";
+import {useApi} from "../../hooks/useApi.ts";
 
 const HomePage = () => {
     const [clocks, setClocks] = useState<Clock[]>([]);
     const [sortOption, setSortOption] = useState<string>('Downloads');
+    const api = useApi();
 
     useEffect(() => {
-        axios.get(`${config.backendURL}/clocks`)
-            .then(response => setClocks(response.data))
+        console.log('Fetching clocks...');
+
+        api('/clocks')
+            .then(response => {
+                console.log('Fetched clocks:', response.data);
+                setClocks(response.data)
+            })
             .catch(error => console.error('Error fetching clocks:', error));
-    }, []);
+    }, [api]);
 
     // Handle sorting
     const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {

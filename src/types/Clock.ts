@@ -4,7 +4,7 @@ export interface Clock {
     author: string | null;
     url: string;
     description: string | null;
-    userId: number;
+    userId: string;
     downloads: number;
     secondHandColor: string;
     createdAt: Date;
@@ -12,7 +12,7 @@ export interface Clock {
     likes: number;
     userLiked: boolean;
     User: {
-        id: number;
+        string: number;
         username: string;
     };
 }

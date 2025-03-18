@@ -1,14 +1,13 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
-import axios from 'axios';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Navigate, useNavigate} from 'react-router-dom';
-import {AuthContext} from "../../context/AuthContext.tsx";
-import config from "../../config.ts";
 import {useDropzone} from "react-dropzone";
 import styles from './AddClockPage.module.css';
 import ProgressSpinner from "../../components/ProgressSpinner.tsx";
-import jpeg from 'jpeg-js'; // Import a library like jpeg-js for JPEG decoding
+import jpeg from 'jpeg-js';
 import {isProgressiveJPEG} from "../../utils/jpeghelper.ts"
 import Card from "../../components/Card.tsx";
+import {useKindeAuth} from "@kinde-oss/kinde-auth-react";
+import {useApi} from "../../hooks/useApi.ts";
 
 type FilePreview = {
     file: File;
@@ -20,10 +19,11 @@ const AddClockPage = () => {
     const [files, setFiles] = useState<FilePreview[]>([]);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
-    const {user} = useContext(AuthContext)!;
+    const {user} = useKindeAuth();
     const requiredFiles = Array.from({length: 12}, (_, i) => `${i}.jpg`); // ['0.jpg', ..., '11.jpg']
     const [showSpinner, setShowSpinner] = useState(false);
     const [showDragAndDrop, setShowDragAndDrop] = useState(true);
+    const api = useApi();
 
     useEffect(() => {
         setShowDragAndDrop(files.length !== requiredFiles.length);
@@ -126,8 +126,7 @@ const AddClockPage = () => {
 
             console.log('Uploading files:', formData);
 
-            const uploadResponse = await axios.post(
-                `${config.backendURL}/uploads`,
+            const uploadResponse = await api.post("/uploads",
                 formData,
                 {
                     headers: {
@@ -164,7 +163,7 @@ const AddClockPage = () => {
             setShowSpinner(true);
 
             // Step 1: Add the new clock
-            const clockResponse = await axios.post(`${config.backendURL}/clocks`, [form]);
+            const clockResponse = await api.post("/clocks", form);
 
             const clockId = clockResponse.data.id;
             console.log('Clock created with ID:', clockId);

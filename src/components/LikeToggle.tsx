@@ -1,12 +1,11 @@
-import React, {useContext, useState} from 'react';
-import axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faHeart as faSolidHeart} from '@fortawesome/free-solid-svg-icons';
 import {faHeart as faRegularHeart} from '@fortawesome/free-regular-svg-icons';
 import {toast} from "react-toastify";
-import config from "../config";
-import {AuthContext} from "../context/AuthContext.tsx";
 import styles from './LikeToggle.module.css';
+import {useKindeAuth} from "@kinde-oss/kinde-auth-react";
+import {useApi} from "../hooks/useApi.ts";
 
 interface LikeToggleProps {
     id: string;
@@ -19,10 +18,17 @@ const LikeToggle: React.FC<LikeToggleProps> = ({
                                                    id, initialLikes, initialLiked, long
                                                }) => {
     // Get logged in user
-    const {user} = useContext(AuthContext)!;
+    const {user} = useKindeAuth();
     const [isLiked, setLiked] = useState<boolean>(initialLiked); // State for like/unlike
     const [likes, setLikes] = useState<number>(initialLikes); // State for like count
     const [likeUpdating, setLikeUpdating] = useState<boolean>(false); // Prevent duplicate requests
+    const api = useApi();
+
+    // Sync local state with updated props
+    useEffect(() => {
+        setLiked(initialLiked);
+        setLikes(initialLikes);
+    }, [initialLiked, initialLikes]);
 
     // Toggle like handler
     const handleToggleLike = async () => {
@@ -39,11 +45,11 @@ const LikeToggle: React.FC<LikeToggleProps> = ({
         try {
             if (isLiked) {
                 // Unlike (send DELETE request)
-                await axios.delete(`${config.backendURL}/likes/${id}`);
+                await api.delete(`/likes/${id}`);
                 setLikes((prevLikes) => prevLikes - 1); // Update likes locally
             } else {
                 // Like (send POST request)
-                await axios.post(`${config.backendURL}/likes/${id}`, {});
+                await api.post(`/likes/${id}`, {});
                 setLikes((prevLikes) => prevLikes + 1); // Update likes locally
             }
             setLiked(!isLiked); // Toggle like status

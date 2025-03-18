@@ -1,5 +1,4 @@
-import {useContext, useEffect, useState} from 'react';
-import axios from 'axios';
+import {useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {Clock} from '../../types/Clock.ts';
 import ConfirmationDialog from '../../components/ConfirmationDialog.tsx';
@@ -9,18 +8,19 @@ import {toast} from 'react-toastify'; // Import Toastify
 import 'react-toastify/dist/ReactToastify.css'; // Import Toastify styles
 import styles from './ClockDetailPage.module.css'; // Import the new CSS file
 import config from '../../config.ts';
-import {AuthContext} from "../../context/AuthContext.tsx";
 import ClockTimeCard from "./ClockTimeCard.tsx";
 import Card from "../../components/Card.tsx";
 import AllClockImagesCard from "./AllClockImagesCard.tsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faInfoCircle} from "@fortawesome/free-solid-svg-icons";
+import {useKindeAuth} from "@kinde-oss/kinde-auth-react";
+import {useApi} from "../../hooks/useApi.ts";
 
 
 const ClockDetailPage = () => {
+    const api = useApi();
     // Get logged in user
-    const {user} = useContext(AuthContext)!;
-
+    const {user} = useKindeAuth();
     const {id} = useParams();
     const [clock, setClock] = useState<Clock | null>(null);
     const [orbIP, setOrbIP] = useState<string>(''); // State for the orb IP input
@@ -53,13 +53,13 @@ const ClockDetailPage = () => {
     }, [orbIP]); // Runs every time orbIP is updated
 
     useEffect(() => {
-        axios.get(`${config.backendURL}/clocks/${id}`)
+        api.get(`/clocks/${id}`)
             .then(response => {
                 setClock(response.data);
                 setSecondHandColor(response.data.secondHandColor);
             })
             .catch(error => console.error('Error fetching clock details:', error));
-    }, [id]);
+    }, [api, id]);
 
     if (!clock) return <div>Loading...</div>;
 
@@ -78,10 +78,11 @@ const ClockDetailPage = () => {
 
     const confirmInstallClockface = () => {
         setIsInstallDialogOpen(false); // Close confirmation dialog
-        const author = clock.author && clock.author.length > 0 ? clock.author : clock.User.username;
+        const author = clock.author && clock.author.length > 0 ? clock.author : null; //clock.User.username;
         const installUrl = `http://${orbIP}/fetchFromClockRepo?`
             + `url=${encodeURIComponent(pendingUrl)}&customClock=${pendingCustomClockNum}&`
-            + `clockName=${encodeURIComponent(clock.name)}&authorName=${encodeURIComponent(author)}&`
+            + `clockName=${encodeURIComponent(clock.name)}&`
+            + (author ? `authorName=${encodeURIComponent(author)}&` : "")
             + `secondHandColor=${encodeURIComponent(secondHandColor)}&overrideColor=${encodeURIComponent(overrideColor)}`
         console.log(installUrl);
         // Open the URL in a new tab
@@ -95,7 +96,7 @@ const ClockDetailPage = () => {
 
     const confirmDeleteClockface = () => {
         setIsDeleteDialogOpen(false);
-        axios.delete(`${config.backendURL}/clocks/${clock.id}`)
+        api.delete(`/clocks/${clock.id}`)
             .then(() => {
                     toast.success('Clockface deleted');
                     navigate("/");
@@ -104,7 +105,7 @@ const ClockDetailPage = () => {
     };
 
     const markDownload = () => {
-        axios.post(`${config.backendURL}/clocks/${clock.id}/dl`)
+        api.post(`/clocks/${clock.id}/dl`)
             .then(response => {
                 // console.log(response);
                 if (response.data && response.data.downloads) {
@@ -119,7 +120,7 @@ const ClockDetailPage = () => {
     };
 
     const url = `${config.backendURL}/images/${clock.id}`;
-    const canEdit = user && (user.isAdmin || user.id == clock.userId);
+    const canEdit = user; // && (user.isAdmin || user.id == clock.userId);
 
     return (
         <div className={styles["clock-detail-page"]}>
@@ -130,8 +131,8 @@ const ClockDetailPage = () => {
                     <DownloadsCounter downloads={clock.downloads} long={true}/>
                 </div>
                 <h2>{clock.name}</h2>
-                <div>by {clock.author && clock.author.length > 0 ? clock.author : clock.User.username}</div>
-                {clock.author && clock.author.length > 0 && (<div>Uploaded by {clock.User.username}</div>)}
+                <div>by {clock.author && clock.author.length > 0 ? clock.author : null}</div>
+                {/*{clock.author && clock.author.length > 0 && (<div>Uploaded by {clock.User.username}</div>)}*/}
                 {clock.url && clock.url.length > 0 && (<div><a href={clock.url} target="_blank">{clock.url}</a></div>)}
             </Card>
             <ClockTimeCard clock={clock} secondHandColor={secondHandColor} overrideColor={overrideColor}/>
