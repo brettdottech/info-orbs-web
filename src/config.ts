@@ -1,8 +1,7 @@
 const config = {
-    // backendURL: `http://localhost:3000/api`,
-    // frontendURL: `http://localhost:3000`
-    backendURL: `https://clockrepo-backend.ce-data.net/api`,
-    frontendURL: `https://clockrepo.ce-data.net`
+    // Override during build using env variables
+    backendURL: import.meta.env.VITE_BACKEND_URL,
+    frontendURL: import.meta.env.VITE_FRONTEND_URL
 };
 
 export default config;
