@@ -52,9 +52,9 @@ const BrowseClocksPage = () => {
         }
     });
 
-    // if (clocks.length === 0) {
-    //     return <div className="flex items-center justify-center min-h-60 text-white text-xl">Loading...</div>;
-    // }
+    if (clocks.length === 0) {
+        return <div className="flex items-center justify-center min-h-60 text-white text-xl">Loading...</div>;
+    }
 
     return (
         <div>

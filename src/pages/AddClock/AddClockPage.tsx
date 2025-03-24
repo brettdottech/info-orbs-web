@@ -171,8 +171,8 @@ const AddClockPage = () => {
             // Step 2: Upload files after clock is created
             await uploadFiles(clockId);
 
-            // Step 3: Navigate to the home page after successful upload
-            navigate('/');
+            // Step 3: Navigate to the browse clocks page after successful upload
+            navigate('/clocks');
         } catch (error) {
             console.error('Error uploading files or adding the clock:', error);
 
