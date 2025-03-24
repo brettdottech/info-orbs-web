@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(rootElement);
 
 root.render(
     // <StrictMode>
-    <KindeProvider clientId={"efa32183640148e780abdf87683c8ece"} domain={"https://cedata.kinde.com"}
+    <KindeProvider clientId={config.kindeClientId} domain={config.kindeDomain}
                    redirectUri={config.frontendURL}>
         <AuthProvider>
             <Router>
