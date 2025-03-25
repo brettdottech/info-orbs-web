@@ -21,7 +21,7 @@ const ClockItem = ({clock}: ClockItemProps) => {
             </Link>
             <div className="font-bold text-xl mt-3">{clock.name}</div>
             <div className="mb-1">
-                by {clock.author && clock.author.length > 0 ? clock.author : clock.User.username}
+                by {clock.author && clock.author.length > 0 ? clock.author : clock.userName}
             </div>
             <div className="flex justify-center">
                 <LikeToggle id={clock.id.toString()}
