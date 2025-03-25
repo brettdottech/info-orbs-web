@@ -63,7 +63,7 @@ const BrowseClocksPage = () => {
 
     return (
         <div>
-            <div className="flex items-center gap-4 mt-4 max-w-full w-auto flex-wrap justify-between">
+            <div className="flex items-center gap-4 ml-4 mr-4 mt-4 max-w-full w-auto flex-wrap justify-between">
                 {(unapprovedClocks.length > 0) && (
                     <div className="flex items-center gap-4 flex-wrap">
                         <span
