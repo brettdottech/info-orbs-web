@@ -19,7 +19,7 @@ const AddClockPage = () => {
     const [files, setFiles] = useState<FilePreview[]>([]);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
-    const {user} = useKindeAuth();
+    const {user, isLoading} = useKindeAuth();
     const requiredFiles = Array.from({length: 12}, (_, i) => `${i}.jpg`); // ['0.jpg', ..., '11.jpg']
     const [showSpinner, setShowSpinner] = useState(false);
     const [showDragAndDrop, setShowDragAndDrop] = useState(true);
@@ -110,8 +110,8 @@ const AddClockPage = () => {
         multiple: true, // Allow multiple file uploads
     });
 
-    if (!user) {
-        return <Navigate to="/login"/>;
+    if (!isLoading && !user) {
+        return <Navigate to="/clocks"/>;
     }
 
     const uploadFiles = async (id: string) => {
@@ -172,7 +172,7 @@ const AddClockPage = () => {
             await uploadFiles(clockId);
 
             // Step 3: Navigate to the browse clocks page after successful upload
-            navigate('/clocks');
+            navigate(`/clock/${clockId}`);
         } catch (error) {
             console.error('Error uploading files or adding the clock:', error);
 

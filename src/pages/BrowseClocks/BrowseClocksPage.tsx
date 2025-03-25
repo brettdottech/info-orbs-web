@@ -11,6 +11,8 @@ import {useKindeAuth} from "@kinde-oss/kinde-auth-react";
 const BrowseClocksPage = () => {
     const [clocks, setClocks] = useState<Clock[]>([]);
     const [sortOption, setSortOption] = useState<string>('Downloads');
+    const [showApproved, setShowApproved] = useState<boolean>(true);
+
     const api = useApi();
     const {isAuthenticated} = useKindeAuth();
 
@@ -43,8 +45,8 @@ const BrowseClocksPage = () => {
             case 'ClockName':
                 return a.name.localeCompare(b.name);
             case 'AuthorName': {
-                const authorA = a.author && a.author.length > 0 ? a.author : a.User.username;
-                const authorB = a.author && a.author.length > 0 ? a.author : a.User.username;
+                const authorA = a.author && a.author.length > 0 ? a.author : a.userName;
+                const authorB = a.author && a.author.length > 0 ? a.author : a.userName;
                 return authorA.localeCompare(authorB);
             }
             default:
@@ -56,20 +58,40 @@ const BrowseClocksPage = () => {
         return <div className="flex items-center justify-center min-h-60 text-white text-xl">Loading...</div>;
     }
 
+    const approvedClocks = sortedClocks.filter(clock => clock.approved);
+    const unapprovedClocks = sortedClocks.filter(clock => !clock.approved);
+
     return (
         <div>
-            <div className="flex items-center gap-4 mt-4 max-w-full w-auto flex-wrap justify-end">
-                <label className="text-lg font-bold whitespace-nowrap" htmlFor="sort">Sort By: </label>
-                <select id="sort" value={sortOption} onChange={handleSortChange}
-                        className="p-1 text-sm border border-gray-300 rounded bg-gray-700 text-white">
-                    <option value="Newest">Newest</option>
-                    <option value="Likes">Likes</option>
-                    <option value="Downloads">Downloads</option>
-                    <option value="ClockName">Clock Name</option>
-                    <option value="AuthorName">Author Name</option>
-                </select>
+            <div className="flex items-center gap-4 mt-4 max-w-full w-auto flex-wrap justify-between">
+                {(unapprovedClocks.length > 0) && (
+                    <div className="flex items-center gap-4 flex-wrap">
+                        <span
+                            className={`text-lg font-bold whitespace-nowrap cursor-pointer ${showApproved ? 'text-blue-500' : 'text-white'}`}
+                            onClick={() => setShowApproved(true)}>
+                            Approved ({approvedClocks.length})
+                        </span>
+                        <span className="text-lg whitespace-nowrap text-white"> | </span>
+                        <span
+                            className={`text-lg font-bold whitespace-nowrap cursor-pointer ${!showApproved ? 'text-blue-500' : 'text-white'}`}
+                            onClick={() => setShowApproved(false)}>
+                            Not approved ({unapprovedClocks.length})
+                        </span>
+                    </div>
+                )}
+                <div className="flex items-center gap-4 ml-auto">
+                    <label className="text-lg font-bold whitespace-nowrap" htmlFor="sort">Sort By: </label>
+                    <select id="sort" value={sortOption} onChange={handleSortChange}
+                            className="p-1 text-sm border border-gray-300 rounded bg-gray-700 text-white">
+                        <option value="Newest">Newest</option>
+                        <option value="Likes">Likes</option>
+                        <option value="Downloads">Downloads</option>
+                        <option value="ClockName">Clock Name</option>
+                        <option value="AuthorName">Author Name</option>
+                    </select>
+                </div>
             </div>
-            <ClockList clocks={sortedClocks}/>
+            <ClockList clocks={showApproved ? approvedClocks : unapprovedClocks}/>
             {isAuthenticated && (
                 <div className="flex items-center max-w-full w-auto flex-wrap justify-end m-0 p-0">
                     <Tooltip text="Add Clock">

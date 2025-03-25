@@ -82,7 +82,7 @@ const ClockDetailPage = () => {
 
     const confirmInstallClockface = () => {
         setIsInstallDialogOpen(false); // Close confirmation dialog
-        const author = clock.author && clock.author.length > 0 ? clock.author : null; //clock.User.username;
+        const author = clock.author && clock.author.length > 0 ? clock.author : clock.userName;
         const installUrl = `http://${orbIP}/fetchFromClockRepo?`
             + `url=${encodeURIComponent(pendingUrl)}&customClock=${pendingCustomClockNum}&`
             + `clockName=${encodeURIComponent(clock.name)}&`
@@ -103,9 +103,25 @@ const ClockDetailPage = () => {
         api.delete(`/clocks/${clock.id}`)
             .then(() => {
                     toast.success('Clockface deleted');
-                    navigate("/");
+                    navigate("/clocks");
                 }
             );
+    };
+
+    const handleApproval = (approve: boolean) => {
+        if (approve) {
+            api.post(`/clocks/${clock.id}/approve`)
+                .then(() => {
+                        navigate(0); // This refreshes the current page
+                    }
+                );
+        } else {
+            api.delete(`/clocks/${clock.id}/approve`)
+                .then(() => {
+                        navigate(0); // This refreshes the current page
+                    }
+                );
+        }
     };
 
     const markDownload = () => {
@@ -124,7 +140,9 @@ const ClockDetailPage = () => {
     };
 
     const url = `${config.backendURL}/images/${clock.id}`;
-    const canEdit = user && (hasRole("admin") || user.id == clock.userId);
+
+    const isAdmin = hasRole("admin");
+    const canEdit = user && (isAdmin || user.id == clock.userId);
 
 
     return (
@@ -135,9 +153,10 @@ const ClockDetailPage = () => {
                                 long={true}/>
                     <DownloadsCounter downloads={clock.downloads} long={true}/>
                 </div>
-                <div className="text-xl font-bold">{clock.name}</div>
-                <div>by {clock.author && clock.author.length > 0 ? clock.author : null}</div>
-                {/*{clock.author && clock.author.length > 0 && (<div>Uploaded by {clock.User.username}</div>)}*/}
+                <div className="text-xl font-bold">{clock.name} {!clock.approved && (
+                    <span className="text-red-500">(Needs approval)</span>)}</div>
+                <div>by {clock.author && clock.author.length > 0 ? clock.author : clock.userName}</div>
+                {clock.author && clock.author.length > 0 && (<div>Uploaded by {clock.userName}</div>)}
                 {clock.url && clock.url.length > 0 && (<div><a href={clock.url} target="_blank">{clock.url}</a></div>)}
             </Card>
             <ClockTimeCard clock={clock} secondHandColor={secondHandColor} overrideColor={overrideColor}/>
@@ -237,6 +256,14 @@ const ClockDetailPage = () => {
                     {/*        Update Clock*/}
                     {/*    </button>*/}
                     {/*)}*/}
+                    {
+                        isAdmin && (
+                            <button className="blue"
+                                    onClick={() => handleApproval(!clock.approved)}>
+                                {clock.approved ? "Unapprove Clock" : "Approve Clock"}
+                            </button>
+                        )
+                    }
                     <button className="red"
                             onClick={() => handleDeleteClockface()}>
                         Delete Clock
