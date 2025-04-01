@@ -15,7 +15,7 @@ const HomePage = () => {
                     <h2 className="text-2xl font-semibold">🔄 Get Started Fast</h2>
                     <p>
                         Easily flash your InfoOrbs device using our{' '}
-                        <Link to="/flash" className="text-blue-600 hover:underline">
+                        <Link to="/flash" className="text-blue-600 hover:underline link">
                             Web Flasher
                         </Link>{' '}
                         – no special tools or software required.
@@ -26,7 +26,7 @@ const HomePage = () => {
                     <h2 className="text-2xl font-semibold">🕒 Customize Your Look</h2>
                     <p>
                         Browse and install custom clock designs directly from our{' '}
-                        <Link to="/clocks" className="text-blue-600 hover:underline">
+                        <Link to="/clocks" className="text-blue-600 hover:underline link">
                             Clock Repository
                         </Link>, or create and share your own.
                     </p>
@@ -40,7 +40,7 @@ const HomePage = () => {
                             href="https://github.com/brettdottech/info-orbs"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
+                            className="text-blue-600 hover:underline link"
                         >
                             GitHub repository
                         </a>{' '}
@@ -56,7 +56,7 @@ const HomePage = () => {
                             href="https://link.brett.tech/discord"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-blue-600 hover:underline"
+                            className="text-blue-600 hover:underline link"
                         >
                             Discord server
                         </a>.

@@ -14,7 +14,7 @@ import WebFlashPage from "./pages/WebFlash/WebFlashPage.tsx";
 import NavigationBar from "./components/NavigationBar.tsx";
 
 function App() {
-    const {isAuthenticated, isLoading, user, getToken,} = useKindeAuth();
+    const {isAuthenticated, isLoading, user, getToken} = useKindeAuth();
     const {setToken} = useToken();
     const [tokenLoaded, setTokenLoaded] = useState<boolean>(false);
 
@@ -40,7 +40,7 @@ function App() {
             setTokenLoaded(true);
         };
         fetchToken();
-    }, [isAuthenticated, isLoading]);
+    }, [getToken, isAuthenticated, isLoading, setToken]);
 
     if (!tokenLoaded) {
         return <div className="flex items-center justify-center h-screen text-white text-xl">Loading...</div>;
